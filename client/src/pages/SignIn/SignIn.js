@@ -50,60 +50,21 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
-                    <div className="col-sm-8 col-sm-offset-2 text">
-                        <h1><strong>SignIn</strong> Login Form</h1>
-                        <div className="description">
-                            <p>
-                                This is a free responsive login form made with Bootstrap.
-	                            	Download it on <a href="http://azmind.com"><strong>AZMIND</strong></a>, customize and use it as you like!
-                            	</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-6 col-sm-offset-3 form-box">
-                        <div className="form-top">
-                            <div className="form-top-left">
-                                <h3>Login to our site</h3>
-                                <p>Enter your username and password to log on:</p>
-                            </div>
-                            <div className="form-top-right">
-                                <i className="fa fa-lock"></i>
-                            </div>
-                        </div>
-                        <div className="form-bottom">
-                            <form role="form" action="" method="post" className="login-form">
-                                <div className="form-group">
-                                    <label className="sr-only" for="form-username">Username</label>
-                                    <input type="text" name="form-username" placeholder="Username..." className="form-username form-control" id="form-username" />
-                                </div>
-                                <div className="form-group">
-                                    <label className="sr-only" for="form-password">Password</label>
-                                    <input type="password" name="form-password" placeholder="Password..." className="form-password form-control" id="form-password" />
-                                </div>
-                                <button type="submit" className="btn">Login</button>
+                    <div className="col-md-12 v-center">
+                        <div className="innerBox">
+                            <h1 className="form-title">ROOLS</h1>
+                            <form className="login">
+                                <input type="text" placeholder="Username" />
+                                <input type="password" placeholder="Password" />
+                                <Link to={"/books"}>
+                                    <button type="button" value="Sign In" className="btn btn-login">Log In</button>
+                                </Link>
                                 <Link to={"/signup"}>
-                                    <button type="submit" className="btn">Sign Up</button>
+                                    <button type="button" value="Sign Up" className="btn btn-signUp">Sign Up</button>
                                 </Link>
                             </form>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-sm-6 col-sm-offset-3 social-login">
-                        <h3>...or login with:</h3>
-                        <div className="social-login-buttons">
-                            <a className="btn btn-link-2" href="#">
-                                <i className="fa fa-facebook"></i> Facebook
-	                        	</a>
-                            <a className="btn btn-link-2" href="#">
-                                <i className="fa fa-twitter"></i> Twitter
-	                        	</a>
-                            <a className="btn btn-link-2" href="#">
-                                <i className="fa fa-google-plus"></i> Google Plus
-	                        	</a>
                         </div>
                     </div>
                 </div>

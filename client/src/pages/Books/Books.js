@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn } from "../../components/Form";
+import Nav from "./components/Nav";
 
 class Books extends Component {
   state = {
@@ -55,6 +56,7 @@ class Books extends Component {
 
   render() {
     return (
+      <Nav />
       <Container fluid>
         <Row>
           <Col size="md-6">

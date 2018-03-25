@@ -1,0 +1,118 @@
+html, body, .container-fluid{
+    height: 100%;
+}
+.container-fluid{
+    background: url('https://wallpapertag.com/wallpaper/full/8/0/5/793988-vertical-red-color-wallpaper-1920x1080-for-mac.jpg') fixed;
+    background-size: cover;
+}
+.v-center{
+    max-width:100%;
+    max-height:100%;
+    overflow:auto;
+    background: rgba(0, 0, 0, 0.514);
+    position:absolute;
+    margin:auto;
+    top:0;
+    bottom:0; 
+    right:0;
+    left:0;
+}
+.tall{
+    width:35%;
+    height: 45%;
+}
+.tall2{
+    width:35%;
+    height: 50%;
+}
+@media (max-width: 992px) {
+    .tall{
+        width: 88%;
+        height: 55%;
+    }
+    .tall2{
+        width: 88%;
+        height: 60%;
+    }
+    @media (max-width: 768px) {
+        .tall{
+            width: 88%;
+            height: 50%;
+        }
+        .tall2{
+            width: 88%;
+            height: 58%;
+        }
+    }
+}
+.innerBox{
+    position:relative;
+    top:0;
+    bottom:0; 
+}
+.form-title{
+    font-family: 'Open Sans' , sans-serif;
+    font-size: 35px;
+    font-weight: 600;
+    text-align: center;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    margin-top: 11%;
+}
+form{
+    width: 90%;
+    margin: 0 auto;
+}
+form.login input[type="text"], form.login input[type="password"]{
+    width: 100%;
+    margin: 0;
+    padding: 5px 10px;
+    background: 0;
+    border: 0;
+    border-bottom: 1px solid white;
+    outline: 0;
+    font-style: italic;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin: 10px 0px;
+    color: #FFFFFF;
+    text-align: center;
+}
+::placeholder { 
+    color: rgba(255, 255, 255, 0.637);
+}
+button{
+    width: 100%;
+    font-size: 14px;
+    margin-top: 16px;
+    outline: none;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+.btn-login{
+    background: rgb(18, 109, 7);
+    color:white;
+}
+.btn-register, .btn-signUp{
+    background: rgb(11, 2, 128);
+    color:white;
+}
+.btn-cancel{
+    background: rgb(155, 3, 3);
+    color:white;
+}
+.btn-login:hover{
+    background: rgb(3, 180, 3);
+}
+.btn-register:hover, .btn-signUp:hover{
+    background: rgb(14, 61, 216);
+}
+.btn-cancel:hover{
+    background: rgb(216, 4, 4);
+}
+.btn-register:focus,.btn-login:focus,.btn-cancel:focus {
+    outline: none;
+}
+
