@@ -18,10 +18,7 @@ const BillSchema = new Schema({
         type: Number, 
         required: true,
     },
-    date: { 
-      type: String, 
-      required: true 
-    },
+    date: [String],
     userID: {type: Schema.Types.ObjectId}
 });
 

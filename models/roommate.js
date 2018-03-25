@@ -7,10 +7,7 @@ const RoommateSchema = new Schema({
     Gp: [Number],
     Ip: [Number],
     Rp: [Number],
-    date: { 
-      type: String, 
-      required: true 
-    },
+    date: [String],
     userID: {type: Schema.Types.ObjectId}
 });
 
