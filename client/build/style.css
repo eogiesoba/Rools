@@ -3,7 +3,7 @@ html, body{
     background: rgb(24, 1, 66);
 }
 .landing{
-    background-image: url("images/rools_Background.jpg");
+    background-image: url("./images/rools_Background.jpg");
     background-size: cover;
     height: 100%;
 }
