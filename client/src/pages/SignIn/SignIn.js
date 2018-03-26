@@ -50,7 +50,7 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <div className="container-fluid landing">
                 <div className="row">
                     <div className="col-md-12 v-center">
                         <div className="innerBox">
