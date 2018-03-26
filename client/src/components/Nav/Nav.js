@@ -1,18 +1,26 @@
 import React from "react";
 
 const Nav = () =>
-  <nav className="navbar navbar-inverse navbar-top">
+  <nav className="navbar">
     <div className="container-fluid">
       <div className="navbar-header">
-        <button type="button" className="collapsed navbar-toggle">
-          <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar" /> <span className="icon-bar" />
-          <span className="icon-bar" />
-        </button>
-        <a href="/" className="navbar-brand">
-          Rools
-        </a>
+        <p className="navbar-text navbar-right">ROOLS</p>
       </div>
+      <h1 className="welcome">Welcome Andrew23</h1>
+      <ul className="nav navbar-nav navbar-right">
+        <li>
+          <a href="#"><span className="glyphicon glyphicon-user"></span></a>
+        </li>
+        <li>
+          <a href="#"><span className="glyphicon glyphicon-plus"></span></a>
+        </li>
+        <li>
+          <a href="#"><span className="glyphicon glyphicon-minus"></span></a>
+        </li>
+        <li>
+          <a href="#">Log Out</a>
+        </li>
+      </ul>
     </div>
   </nav>;
 
