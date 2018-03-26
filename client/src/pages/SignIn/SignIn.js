@@ -52,7 +52,7 @@ class SignIn extends Component {
         return (
             <div className="container-fluid landing">
                 <div className="row">
-                    <div className="col-md-12 v-center">
+                    <div className="col-md-12 v-center tall">
                         <div className="innerBox">
                             <h1 className="form-title">ROOLS</h1>
                             <form className="login">
