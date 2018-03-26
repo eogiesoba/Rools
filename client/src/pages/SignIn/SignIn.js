@@ -4,35 +4,16 @@ import { Link } from "react-router-dom";
 
 class SignIn extends Component {
     state = {
-        books: [],
-        title: "",
-        author: "",
-        synopsis: ""
+        username: "",
+        password: ""
     };
-
-    componentDidMount() {
-        this.loadBooks();
-    }
-
-    loadBooks = () => {
-        API.getBooks()
-            .then(res =>
-                this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-            )
-            .catch(err => console.log(err));
-    };
-
-    deleteBook = id => {
-        API.deleteBook(id)
-            .then(res => this.loadBooks())
-            .catch(err => console.log(err));
-    };
-
+    
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
             [name]: value
         });
+        console.log(this.state);
     };
 
     handleFormSubmit = event => {
@@ -56,8 +37,20 @@ class SignIn extends Component {
                         <div className="innerBox">
                             <h1 className="form-title">ROOLS</h1>
                             <form className="login">
-                                <input type="text" placeholder="Username" />
-                                <input type="password" placeholder="Password" />
+                                <input 
+                                type="text"
+                                value={this.state.username}
+                                onChange={this.handleInputChange}
+                                name="username"
+                                placeholder="Username"
+                                />
+                                <input 
+                                type="password"
+                                value={this.state.password}
+                                onChange={this.handleInputChange}
+                                name="password"
+                                placeholder="Password"
+                                />
                                 <Link to={"/books"}>
                                     <button type="button" value="Sign In" className="btn btn-login">Log In</button>
                                 </Link>
