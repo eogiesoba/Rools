@@ -4,28 +4,9 @@ import { Link } from "react-router-dom";
 
 class SignUp extends Component {
     state = {
-        books: [],
-        title: "",
-        author: "",
-        synopsis: ""
-    };
-
-    componentDidMount() {
-        this.loadBooks();
-    }
-
-    loadBooks = () => {
-        API.getBooks()
-            .then(res =>
-                this.setState({ books: res.data, title: "", author: "", synopsis: "" })
-            )
-            .catch(err => console.log(err));
-    };
-
-    deleteBook = id => {
-        API.deleteBook(id)
-            .then(res => this.loadBooks())
-            .catch(err => console.log(err));
+        email: "",
+        username: "",
+        password: ""
     };
 
     handleInputChange = event => {
@@ -33,37 +14,62 @@ class SignUp extends Component {
         this.setState({
             [name]: value
         });
+        console.log(this.state);
     };
 
     handleFormSubmit = event => {
         event.preventDefault();
-        if (this.state.title && this.state.author) {
-            API.saveBook({
-                title: this.state.title,
-                author: this.state.author,
-                synopsis: this.state.synopsis
-            })
-                .then(res => this.loadBooks())
-                .catch(err => console.log(err));
+        if (this.state.username && this.state.email && this.state.password) {
+            API.saveUser({
+                username: this.state.username,
+                email: this.state.email,
+                password: this.state.password
+            }).catch(err => console.log(err));
         }
+        console.log("You Are Registered!")
     };
 
     render() {
         return (
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12 v-center tall2">
-                        <div class="innerBox">
-                            <h1 class="form-title">ROOLS</h1>
-                            <form class="login">
-                                <input type="text" placeholder="Email" />
-                                <input type="text" placeholder="Username" />
-                                <input type="password" placeholder="Password" />
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-md-12 v-center tall2">
+                        <div className="innerBox">
+                            <h1 className="form-title">ROOLS</h1>
+                            <form className="login">
+                                <input
+                                    type="text"
+                                    value={this.state.email}
+                                    onChange={this.handleInputChange}
+                                    name="email"
+                                    placeholder="Email"
+                                />
+                                <input
+                                    type="text"
+                                    value={this.state.username}
+                                    onChange={this.handleInputChange}
+                                    name="username"
+                                    placeholder="Username"
+                                />
+                                <input
+                                    type="password"
+                                    value={this.state.password}
+                                    onChange={this.handleInputChange}
+                                    name="password"
+                                    placeholder="Password"
+                                />
+                                
+                                    <button 
+                                    type="button" 
+                                    value="Register" 
+                                    className="btn btn-register"
+                                    disabled={!(this.state.email && this.state.username && this.state.password)}
+                                    onClick={this.handleFormSubmit}>
+                                    Register
+                                    </button>
+                              
                                 <Link to={"/"}>
-                                    <button type="button" value="Register" class="btn btn-register">Register</button>
-                                </Link>
-                                <Link to={"/"}>
-                                    <button type="button" value="Cancel" class="btn btn-cancel">Cancel</button>
+                                    <button type="button" value="Cancel" className="btn btn-cancel">Cancel</button>
                                 </Link>
                             </form>
                         </div>

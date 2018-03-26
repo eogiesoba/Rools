@@ -15,9 +15,14 @@ app.use(routes);
 
 // Set up promises with mongoose
 mongoose.Promise = global.Promise;
+
+//Running environments
+const dev = "mongodb://localhost/reactreadinglist";
+const production = "mongodb://user:password@ds123499.mlab.com:23499/heroku_jxl9860v";
+
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || "mongodb://user:password@ds123499.mlab.com:23499/heroku_jxl9860v",
+  process.env.MONGODB_URI || dev,
   {
     useMongoClient: true
   }
