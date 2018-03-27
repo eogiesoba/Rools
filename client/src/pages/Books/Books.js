@@ -70,20 +70,20 @@ class Books extends Component {
           </Row>
           <Row>
             <Col size="md-6">
-              <Jumbotron>
-                <h1>Electricity</h1>
+              <Jumbotron className="jumbotron eCard">
+                <h2>Electricity - Bill:</h2>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
-              <Jumbotron>
-                <h1>Natural Gas</h1>
+              <Jumbotron className="jumbotron gCard">
+                <h2>Natural Gas - Bill:</h2>
               </Jumbotron>
             </Col>
           </Row>
           <Row>
             <Col size="md-6">
-              <Jumbotron>
-                <h1>Internet</h1>
+              <Jumbotron className="jumbotron iCard">
+                <h2>Internet - Bill:</h2>
               </Jumbotron>
               <form>
                 <Input
@@ -113,8 +113,8 @@ class Books extends Component {
               </form>
             </Col>
             <Col size="md-6 sm-12">
-              <Jumbotron>
-                <h1>Rent</h1>
+              <Jumbotron className="jumbotron rCard">
+                <h2>Rent - Bill:</h2>
               </Jumbotron>
               {this.state.books.length ? (
                 <List>
