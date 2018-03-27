@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
-html, body, #root, .mainBackground{
+html, body, #root{
     height: 100%;
     background-image: url("images/rools_Background.jpg");
     background-size: cover;
@@ -135,7 +135,7 @@ form.login input[type="text"], form.login input[type="password"]{
     margin: 7px auto 0px;
 }
 .navbar{
-    background: black;
+    background: rgb(1, 2, 26);
     margin:0px;
 }
 .nav-icon-1{
@@ -169,13 +169,25 @@ form.login input[type="text"], form.login input[type="password"]{
     margin: 25px 0px;
 }
 .date{
-    margin:0px 50px;
+    margin:0px 30px;
 }
 .dateButton{
     background: none;
 }
 .mainBackground{
     background: rgb(43, 46, 85);
+    min-height: 100%;
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(1, 2, 26);
+    color: white;
+    text-align: center;
+    height: 18px;
+    font-size: 12px;
 }
 .jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
     font-family: 'Quicksand', sans-serif;
