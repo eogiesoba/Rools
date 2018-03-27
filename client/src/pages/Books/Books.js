@@ -1,40 +1,60 @@
 import React, { Component } from "react";
+import DeleteBtn from "../../components/DeleteBtn";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
+import { List, ListItem } from "../../components/List";
+import { Input, TextArea, FormBtn } from "../../components/Form";
 import Nav from "../../components/Nav";
-import { Popover, Tooltip, Button, Modal, OverlayTrigger } from 'react-bootstrap';
-
 
 class Books extends Component {
-  constructor(props, context) {
-    super(props, context);
+  state = {
+    books: [],
+    title: "",
+    author: "",
+    synopsis: ""
+  };
 
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
-    this.state = {
-      show: false
-    };
+  componentDidMount() {
+    this.loadBooks();
   }
 
-  handleClose() {
-    this.setState({ show: false });
-  }
+  loadBooks = () => {
+    API.getBooks()
+      .then(res =>
+        this.setState({ books: res.data, title: "", author: "", synopsis: "" })
+      )
+      .catch(err => console.log(err));
+  };
 
-  handleShow() {
-    this.setState({ show: true });
-  }
+  deleteBook = id => {
+    API.deleteBook(id)
+      .then(res => this.loadBooks())
+      .catch(err => console.log(err));
+  };
+
+  handleInputChange = event => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
+  handleFormSubmit = event => {
+    event.preventDefault();
+    if (this.state.title && this.state.author) {
+      API.saveBook({
+        title: this.state.title,
+        author: this.state.author,
+        synopsis: this.state.synopsis
+      })
+        .then(res => this.loadBooks())
+        .catch(err => console.log(err));
+    }
+  };
 
   render() {
-    const popover = (
-      <Popover id="modal-popover" title="popover">
-        very popover. such engagement
-      </Popover>
-    );
-    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
     return (
       <div className="mainBackground">
         <Nav />
@@ -52,19 +72,13 @@ class Books extends Component {
             <Col size="md-6">
               <Jumbotron className="jumbotron eCard">
                 <button className="e-Icon"></button>
-                <h2>Electricity - Bill: $30</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
+                <h2>Electricity - Bill:</h2>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron gCard">
                 <button className="g-Icon"></button>
                 <h2>Gas - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
           </Row>
@@ -73,91 +87,16 @@ class Books extends Component {
               <Jumbotron className="jumbotron iCard">
                 <button className="i-Icon"></button>
                 <h2>Internet - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron rCard">
                 <button className="r-Icon"></button>
                 <h2>Rent - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
           </Row>
-          <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <h4>Text in a modal</h4>
-              <p>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </p>
-
-              <h4>Popover in a modal</h4>
-              <p>
-                there is a{' '}
-                <OverlayTrigger overlay={popover}>
-                  <a href="#popover">popover</a>
-                </OverlayTrigger>{' '}
-                here
-              </p>
-
-              <h4>Tooltips in a modal</h4>
-              <p>
-                there is a{' '}
-                <OverlayTrigger overlay={tooltip}>
-                  <a href="#tooltip">tooltip</a>
-                </OverlayTrigger>{' '}
-                here
-              </p>
-
-              <hr />
-
-              <h4>Overflowing text to show scroll behavior</h4>
-              <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-                ac consectetur ac, vestibulum at eros.
-              </p>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor.
-              </p>
-              <p>
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-                dui. Donec ullamcorper nulla non metus auctor fringilla.
-              </p>
-              <p>
-                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
-                ac consectetur ac, vestibulum at eros.
-              </p>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor.
-              </p>
-              <p>
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-                dui. Donec ullamcorper nulla non metus auctor fringilla.
-              </p>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer>
-          </Modal>
         </Container>
-        <div className="footer">
-          <p>Designed and Coded by Efosa Ogiesoba</p>
-        </div>
       </div>
     );
   }
