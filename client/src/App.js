@@ -8,7 +8,6 @@ import SignIn from "./pages/SignIn";
 
 const App = () =>
   <Router>
-    <div>
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
@@ -16,7 +15,6 @@ const App = () =>
         {/* <Route exact path="/books/:id" component={Detail} /> */}
         <Route component={NoMatch} />
       </Switch>
-    </div>
   </Router>;
 
 export default App;

@@ -36,6 +36,7 @@ class SignIn extends Component {
                     <div className="col-md-12 v-center tall">
                         <div className="innerBox">
                             <h1 className="form-title">ROOLS</h1>
+                            <h5 className="sub-title">Manage all your bills in 1 place</h5>
                             <form className="login">
                                 <input 
                                 type="text"

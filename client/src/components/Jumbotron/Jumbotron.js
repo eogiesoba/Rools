@@ -1,8 +1,8 @@
 import React from "react";
 
-const Jumbotron = ({ children }) =>
-  <div style={{ height: 300, clear: 'both' }} className="jumbotron">
-    {children}
+const Jumbotron = props =>
+  <div style={{ height: 300, clear: 'both' }} className={props.className}>
+    {props.children}
   </div>;
 
 export default Jumbotron;
