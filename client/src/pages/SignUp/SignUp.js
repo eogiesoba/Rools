@@ -59,18 +59,18 @@ class SignUp extends Component {
                                     name="password"
                                     placeholder="Password"
                                 />
-                                
-                                    <button 
-                                    type="button" 
-                                    value="Register" 
-                                    className="btn btn-register"
+
+                                <button
+                                    type="button"
+                                    value="Register"
+                                    className="btn-register"
                                     disabled={!(this.state.email && this.state.username && this.state.password)}
                                     onClick={this.handleFormSubmit}>
                                     Register
-                                    </button>
-                              
+                                </button>
+
                                 <Link to={"/"}>
-                                    <button type="button" value="Cancel" className="btn btn-cancel">Cancel</button>
+                                    <button type="button" value="Cancel" className="btn-cancel">Cancel</button>
                                 </Link>
                             </form>
                         </div>
