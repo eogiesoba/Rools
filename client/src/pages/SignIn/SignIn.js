@@ -53,10 +53,10 @@ class SignIn extends Component {
                                 placeholder="Password"
                                 />
                                 <Link to={"/books"}>
-                                    <button type="button" value="Sign In" className="btn btn-login">Log In</button>
+                                    <button type="button" value="Sign In" className="btn-login">Log In</button>
                                 </Link>
                                 <Link to={"/signup"}>
-                                    <button type="button" value="Sign Up" className="btn btn-signUp">Sign Up</button>
+                                    <button type="button" value="Sign Up" className="btn-signUp">Sign Up</button>
                                 </Link>
                             </form>
                         </div>

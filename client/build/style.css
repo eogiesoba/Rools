@@ -89,21 +89,33 @@ form.login input[type="text"], form.login input[type="password"]{
     width: 100%;
     font-size: 14px;
     margin-top: 16px;
-    outline: none;
-    cursor: pointer;
     letter-spacing: 1px;
 }
 .btn-login{
     background: rgb(18, 109, 7);
     color:white;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
 .btn-register, .btn-signUp{
     background: rgb(11, 2, 128);
     color:white;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+button[disabled], html input[disabled] {
+   cursor: pointer;
 }
 .btn-cancel{
     background: rgb(155, 3, 3);
     color:white;
+    padding: 6px 12px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
 .btn-login:hover{
     background: rgb(3, 180, 3);
