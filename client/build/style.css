@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
 
-html, body{
+html, body, #root, .mainBackground{
     height: 100%;
     background-image: url("images/rools_Background.jpg");
     background-size: cover;
@@ -18,6 +18,7 @@ html, body{
     bottom:0; 
     right:0;
     left:0;
+    box-shadow: 0px 0px 45px 7px rgba(202, 68, 68, 0.5);
 }
 .tall{
     width:35%;
@@ -161,13 +162,68 @@ form.login input[type="text"], form.login input[type="password"]{
 /**Navbar Section above---------------------------------------------------*/
 
 /*Main display CSS below--------------------------------------------------*/
-.date{
+.dateBlock{
     color: white;
     text-align: center;
     font-size: 28px;
-    margin: 20px 0px;
+    margin: 25px 0px;
+}
+.date{
+    margin:0px 50px;
+}
+.dateButton{
+    background: none;
 }
 .mainBackground{
-    background: rgb(62,55,79);
+    background: rgb(43, 46, 85);
+}
+.jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    color: rgb(255, 255, 255);
+    margin-top: 10px;
+}
+.container .jumbotron, .container-fluid .jumbotron{
+    padding: 10px;
+}
+.eCard{
+    background: linear-gradient(rgb(143, 3, 3), rgb(70, 4, 4));
+}
+.gCard{
+    background: linear-gradient(rgb(7, 23, 165), rgb(3, 4, 58));
+}
+.iCard{
+    background: linear-gradient(rgb(3, 112, 13), rgb(2, 54, 2));
+}
+.rCard{
+    background: linear-gradient(rgb(177, 180, 6), rgb(47, 48, 0));
+}
+.eCard, .gCard, .iCard, .rCard {
+    box-shadow: 0px 0px 45px 7px rgba(0,0,0,0.75);
+}
+.e-Icon, .g-Icon, .i-Icon, .r-Icon{
+    height: 64px;
+    width: 64px;
+    background-color: rgba(255, 0, 0, 0);
+    border: 0px;
+    margin-right: 10px;
+    display: block;
+    float: left;
+    outline: none;
+}
+.e-Icon{
+    background-image: url("images/electricity.png");
+}
+.g-Icon{
+    background-image: url("images/fire.png");
+}
+.i-Icon{
+    background-image: url("images/wifi.png");     
+}
+.r-Icon{
+    background-image: url("images/house.png");
+}
+.e-Icon:hover, .g-Icon:hover, .i-Icon:hover, .r-Icon:hover{
+    opacity: 0.70;
 }
 /*Main display CSS above--------------------------------------------------*/

@@ -56,82 +56,44 @@ class Books extends Component {
 
   render() {
     return (
-      <div>
+      <div className="mainBackground">
         <Nav />
         <Container fluid>
           <Row>
             <Col size="md-12">
-              <div className="date">
-                <span className="glyphicon glyphicon-menu-left"></span>
-                <span>February 2019</span>
-                <span className="glyphicon glyphicon-menu-right"></span>
+              <div className="dateBlock">
+                <button className="dateButton"><span className="glyphicon glyphicon-menu-left"></span></button>
+                <span className="date">February 2019</span>
+                <button className="dateButton"><span className="glyphicon glyphicon-menu-right"></span></button>
               </div>
             </Col>
           </Row>
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron eCard">
+                <button className="e-Icon"></button>
                 <h2>Electricity - Bill:</h2>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron gCard">
-                <h2>Natural Gas - Bill:</h2>
+                <button className="g-Icon"></button>
+                <h2>Gas - Bill:</h2>
               </Jumbotron>
             </Col>
           </Row>
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron iCard">
+                <button className="i-Icon"></button>
                 <h2>Internet - Bill:</h2>
               </Jumbotron>
-              <form>
-                <Input
-                  value={this.state.title}
-                  onChange={this.handleInputChange}
-                  name="title"
-                  placeholder="Title (required)"
-                />
-                <Input
-                  value={this.state.author}
-                  onChange={this.handleInputChange}
-                  name="author"
-                  placeholder="Author (required)"
-                />
-                <TextArea
-                  value={this.state.synopsis}
-                  onChange={this.handleInputChange}
-                  name="synopsis"
-                  placeholder="Synopsis (Optional)"
-                />
-                <FormBtn
-                  disabled={!(this.state.author && this.state.title)}
-                  onClick={this.handleFormSubmit}
-                >
-                  Submit Book
-              </FormBtn>
-              </form>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron rCard">
+                <button className="r-Icon"></button>
                 <h2>Rent - Bill:</h2>
               </Jumbotron>
-              {this.state.books.length ? (
-                <List>
-                  {this.state.books.map(book => (
-                    <ListItem key={book._id}>
-                      <Link to={"/books/" + book._id}>
-                        <strong>
-                          {book.title} by {book.author}
-                        </strong>
-                      </Link>
-                      <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                    </ListItem>
-                  ))}
-                </List>
-              ) : (
-                  <h3>No Results to Display</h3>
-                )}
             </Col>
           </Row>
         </Container>
