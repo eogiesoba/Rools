@@ -60,9 +60,30 @@ class Books extends Component {
         <Nav />
         <Container fluid>
           <Row>
+            <Col size="md-12">
+              <div className="date">
+                <span className="glyphicon glyphicon-menu-left"></span>
+                <span>February 2019</span>
+                <span className="glyphicon glyphicon-menu-right"></span>
+              </div>
+            </Col>
+          </Row>
+          <Row>
             <Col size="md-6">
               <Jumbotron>
                 <h1>Electricity</h1>
+              </Jumbotron>
+            </Col>
+            <Col size="md-6 sm-12">
+              <Jumbotron>
+                <h1>Natural Gas</h1>
+              </Jumbotron>
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-6">
+              <Jumbotron>
+                <h1>Internet</h1>
               </Jumbotron>
               <form>
                 <Input
@@ -93,7 +114,7 @@ class Books extends Component {
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron>
-                <h1>Natural Gas</h1>
+                <h1>Rent</h1>
               </Jumbotron>
               {this.state.books.length ? (
                 <List>

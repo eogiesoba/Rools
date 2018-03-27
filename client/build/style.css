@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Abel');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
 html, body{
     height: 100%;
     background-image: url("images/rools_Background.jpg");
     background-size: cover;
+    font-family: 'Quicksand', sans-serif;
 }
 .v-center{
     max-width:100%;
@@ -17,11 +21,11 @@ html, body{
 }
 .tall{
     width:35%;
-    height: 45%;
+    height: 50%;
 }
 .tall2{
     width:35%;
-    height: 50%;
+    height: 56%;
 }
 @media (max-width: 992px) {
     .tall{
@@ -35,11 +39,11 @@ html, body{
     @media (max-width: 768px) {
         .tall{
             width: 88%;
-            height: 50%;
+            height: 55%;
         }
         .tall2{
             width: 88%;
-            height: 58%;
+            height: 62%;
         }
     }
 }
@@ -49,8 +53,7 @@ html, body{
     bottom:0; 
 }
 .form-title{
-    font-family: 'Open Sans' , sans-serif;
-    font-size: 35px;
+    font-family: 'Quicksand', sans-serif;
     font-weight: 600;
     text-align: center;
     color: #FFFFFF;
@@ -113,21 +116,58 @@ form.login input[type="text"], form.login input[type="password"]{
 .btn-register:focus,.btn-login:focus,.btn-cancel:focus {
     outline: none;
 }
+/**Navbar Section below---------------------------------------------------*/
 .welcome{
     position: absolute;
     width: 100%;
     left: 0;
     text-align: center;
-    margin: 0 auto;
+    margin: 7px auto 0;
     padding: 15px;
     color: white;
     font-size: 16px;
+    font-family: 'Quicksand', sans-serif;
 }
 .navbar-text {
     color: #ffffff;
-    font-size: 16px;
+    font-size: 29px;
+    margin: 7px auto 0px;
 }
 .navbar{
     background: black;
     margin:0px;
 }
+.nav-icon-1{
+    color: rgb(16, 30, 230);
+}
+.nav-icon-2{
+    color: rgb(182, 3, 3);
+}
+.nav-icon-3{
+    color: rgb(243, 228, 24);
+}
+.nav-icon-4{
+    color: white;
+    font-size: 20x;
+}
+.navbar-right{
+    margin: 0px;
+}
+.sub-title{
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    color: white;
+}
+/**Navbar Section above---------------------------------------------------*/
+
+/*Main display CSS below--------------------------------------------------*/
+.date{
+    color: white;
+    text-align: center;
+    font-size: 28px;
+    margin: 20px 0px;
+}
+.mainBackground{
+    background: rgb(62,55,79);
+}
+/*Main display CSS above--------------------------------------------------*/
