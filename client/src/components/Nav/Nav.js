@@ -9,16 +9,16 @@ const Nav = props =>
       <h1 className="welcome">Welcome Andrew23</h1>
       <ul className="nav navbar-nav navbar-right">
         <li>
-          <a href="#"><span className="glyphicon glyphicon-user nav-icon-3"></span></a>
-        </li>
-        <li>
           <a href="#">
           <button name={props.plusName} onClick={props.plusClick} className="glyphicon glyphicon-plus nav-icon-1">
           </button>
           </a>
         </li>
         <li>
-          <a href="#"><span className="glyphicon glyphicon-minus nav-icon-2"></span></a>
+          <a href="#">
+          <button name={props.minusName} onClick={props.minusClick} className="glyphicon glyphicon-minus nav-icon-2">
+          </button>
+          </a>
         </li>
         <li>
           <a href="#" className="nav-icon-4">Log Out</a>

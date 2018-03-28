@@ -206,7 +206,8 @@ button[disabled], html input[disabled] {
     font-family: 'Quicksand', sans-serif;
     font-weight: 700;
     color: rgb(255, 255, 255);
-    margin-top: 10px;
+    margin-top: 16px;
+    float: left;
 }
 .container .jumbotron, .container-fluid .jumbotron{
     padding: 10px;
@@ -215,7 +216,7 @@ button[disabled], html input[disabled] {
     background: linear-gradient(rgb(143, 3, 3), rgb(70, 4, 4));
 }
 .gCard{
-    background: linear-gradient(rgb(7, 23, 165), rgb(3, 4, 58));
+    background: linear-gradient(rgb(9, 27, 189), rgb(3, 4, 58));
 }
 .iCard{
     background: linear-gradient(rgb(3, 112, 13), rgb(2, 54, 2));
@@ -226,7 +227,7 @@ button[disabled], html input[disabled] {
 .eCard, .gCard, .iCard, .rCard {
     box-shadow: 0px 0px 45px 7px rgba(0,0,0,0.75);
 }
-.e-Icon, .g-Icon, .i-Icon, .r-Icon{
+.e-Icon, .g-Icon, .i-Icon, .r-Icon, .m-Icon, .u-Icon{
     height: 64px;
     width: 64px;
     background-color: rgba(255, 0, 0, 0);
@@ -247,6 +248,13 @@ button[disabled], html input[disabled] {
 }
 .r-Icon{
     background-image: url("images/house.png");
+}
+.m-Icon{
+    background-image: url("images/money.png");
+    margin: 6px 0px 0px 18px;
+}
+.u-Icon{
+    background-image: url("images/user.png");
 }
 .e-Icon:hover, .g-Icon:hover, .i-Icon:hover, .r-Icon:hover{
     opacity: 0.70;

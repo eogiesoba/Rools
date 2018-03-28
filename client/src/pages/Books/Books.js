@@ -4,8 +4,10 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
-import { Popover, Tooltip, Button, Modal, OverlayTrigger, 
-ControlLabel, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
+import {
+  Popover, Tooltip, Button, Modal, OverlayTrigger,
+  ControlLabel, FormGroup, InputGroup, FormControl
+} from 'react-bootstrap';
 
 
 class Books extends Component {
@@ -27,6 +29,7 @@ class Books extends Component {
       gBill: "",
       iBill: "",
       rBill: "",
+      paid: "",
       roommate: ""
     };
   }
@@ -62,9 +65,9 @@ class Books extends Component {
   };
   handleInputChange = event => {
     const { name, value } = event.target;
-      this.setState({
-        [name]: value
-      });
+    this.setState({
+      [name]: value
+    });
   };
 
   render() {
@@ -77,7 +80,7 @@ class Books extends Component {
 
     return (
       <div className="mainBackground">
-        <Nav plusName="plus" plusClick={this.handleShow} />
+        <Nav plusName="plus" plusClick={this.handleShow} minusName="minus" minusClick={this.handleShow} />
         <Container fluid>
           <Row>
             <Col size="md-12">
@@ -91,31 +94,75 @@ class Books extends Component {
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron eCard">
-                <button className="e-Icon" name="electricity" onClick={this.handleShow}>
-                </button>
-                <h2>Electricity - Bill: $30</h2>
+                <Row>
+                  <Col size="md-12">
+                    <button className="e-Icon" name="electricity" onClick={this.handleShow}>
+                    </button>
+                    <h2>Electricity - Bill: $<span>30</span></h2>
+                    <span className="m-Icon"></span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col size="md-12">
+                    <span className="u-Icon"></span>
+                    <h3>Ryan owes you $<span>10 </span>(<span>33</span>%)</h3>
+                  </Col>
+                </Row>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron gCard">
-                <button className="g-Icon" name="gas" onClick={this.handleShow}>
-                </button>
-                <h2>Gas - Bill:</h2>
+                <Row>
+                  <Col size="md-12">
+                    <button className="g-Icon" name="gas" onClick={this.handleShow}>
+                    </button>
+                    <h2>Gas - Bill: $<span>30</span></h2>
+                    <span className="m-Icon"></span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col size="md-12">
+                    <span className="u-Icon"></span>
+                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                  </Col>
+                </Row>
               </Jumbotron>
             </Col>
           </Row>
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron iCard">
-                <button className="i-Icon" name="internet" onClick={this.handleShow}>
-                </button>
-                <h2>Internet - Bill:</h2>
+                <Row>
+                  <Col size="md-12">
+                    <button className="i-Icon" name="internet" onClick={this.handleShow}>
+                    </button>
+                    <h2>Internet - Bill: $<span>48</span></h2>
+                    <span className="m-Icon"></span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col size="md-12">
+                    <span className="u-Icon"></span>
+                    <h3>Ryan paid you $<span>24 </span>(<span>50</span>%)</h3>
+                  </Col>
+                </Row>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron rCard">
-                <button className="r-Icon" name="rent" onClick={this.handleShow}></button>
-                <h2>Rent - Bill:</h2>
+                <Row>
+                  <Col size="md-12">
+                    <button className="r-Icon" name="rent" onClick={this.handleShow}></button>
+                    <h2>Rent - Bill: $<span>30</span></h2>
+                    <span className="m-Icon"></span>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col size="md-12">
+                    <span className="u-Icon"></span>
+                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                  </Col>
+                </Row>
               </Jumbotron>
             </Col>
           </Row>
@@ -125,14 +172,31 @@ class Books extends Component {
               <Modal.Title>Gas Bill</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <h4>Please enter bill amount below</h4>
               <FormGroup>
+                <h4>Please enter bill amount below:</h4>
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
                     value={this.state.gBill}
                     onChange={this.handleBillChange}
                     name="gBill"
+                  />
+                </InputGroup>
+              </FormGroup>
+              <br />
+              <FormGroup>
+                <h4>Roommates' Contribution:</h4>
+                <FormControl componentClass="select" placeholder="select">
+                  <option value="select">Ryan</option>
+                  <option value="other">Samuel</option>
+                </FormControl>
+                <br />
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    value={this.state.paid}
+                    onChange={this.handleBillChange}
+                    name="paid"
                   />
                 </InputGroup>
               </FormGroup>
@@ -159,6 +223,23 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
+              <br/>
+              <FormGroup>
+                <h4>Roommates' Contribution:</h4>
+                <FormControl componentClass="select" placeholder="select">
+                  <option value="select">Ryan</option>
+                  <option value="other">Samuel</option>
+                </FormControl>
+                <br/>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    value={this.state.paid}
+                    onChange={this.handleBillChange}
+                    name="paid"
+                  />
+                </InputGroup>
+              </FormGroup>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleClose}>Update</Button>
@@ -179,6 +260,23 @@ class Books extends Component {
                     value={this.state.iBill}
                     onChange={this.handleBillChange}
                     name="iBill"
+                  />
+                </InputGroup>
+              </FormGroup>
+              <br/>
+              <FormGroup>
+                <h4>Roommates' Contribution:</h4>
+                <FormControl componentClass="select" placeholder="select">
+                  <option value="select">Ryan</option>
+                  <option value="other">Samuel</option>
+                </FormControl>
+                <br/>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    value={this.state.paid}
+                    onChange={this.handleBillChange}
+                    name="paid"
                   />
                 </InputGroup>
               </FormGroup>
@@ -205,6 +303,23 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
+              <br/>
+              <FormGroup>
+                <h4>Roommates' Contribution:</h4>
+                <FormControl componentClass="select" placeholder="select">
+                  <option value="select">Ryan</option>
+                  <option value="other">Samuel</option>
+                </FormControl>
+                <br/>
+                <InputGroup>
+                  <InputGroup.Addon>$</InputGroup.Addon>
+                  <FormControl
+                    value={this.state.paid}
+                    onChange={this.handleBillChange}
+                    name="paid"
+                  />
+                </InputGroup>
+              </FormGroup>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleClose}>Update</Button>
@@ -214,7 +329,7 @@ class Books extends Component {
 
           <Modal show={this.state.plus} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Rent Bill</Modal.Title>
+              <Modal.Title>New Roommate</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <h4>Please enter new roommate below</h4>
@@ -230,7 +345,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.handleClose}>Add</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -250,7 +365,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.handleClose}>Delete</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
