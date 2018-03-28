@@ -18,7 +18,10 @@ const Nav = props =>
           </a>
         </li>
         <li>
-          <a href="#"><span className="glyphicon glyphicon-minus nav-icon-2"></span></a>
+          <a href="#">
+          <button name={props.minusName} onClick={props.minusClick} className="glyphicon glyphicon-minus nav-icon-2">
+          </button>
+          </a>
         </li>
         <li>
           <a href="#" className="nav-icon-4">Log Out</a>

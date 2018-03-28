@@ -77,7 +77,7 @@ class Books extends Component {
 
     return (
       <div className="mainBackground">
-        <Nav plusName="plus" plusClick={this.handleShow} />
+        <Nav plusName="plus" plusClick={this.handleShow} minusName="minus" minusClick={this.handleShow} />
         <Container fluid>
           <Row>
             <Col size="md-12">
@@ -214,7 +214,7 @@ class Books extends Component {
 
           <Modal show={this.state.plus} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Rent Bill</Modal.Title>
+              <Modal.Title>New Roommate</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <h4>Please enter new roommate below</h4>
@@ -230,7 +230,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.handleClose}>Add</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -250,7 +250,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.handleClose}>Delete</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
