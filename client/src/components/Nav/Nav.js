@@ -9,9 +9,6 @@ const Nav = props =>
       <h1 className="welcome">Welcome Andrew23</h1>
       <ul className="nav navbar-nav navbar-right">
         <li>
-          <a href="#"><span className="glyphicon glyphicon-user nav-icon-3"></span></a>
-        </li>
-        <li>
           <a href="#">
           <button name={props.plusName} onClick={props.plusClick} className="glyphicon glyphicon-plus nav-icon-1">
           </button>
