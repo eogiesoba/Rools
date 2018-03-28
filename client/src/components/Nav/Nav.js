@@ -1,6 +1,6 @@
 import React from "react";
 
-const Nav = () =>
+const Nav = props =>
   <nav className="navbar">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -12,7 +12,10 @@ const Nav = () =>
           <a href="#"><span className="glyphicon glyphicon-user nav-icon-3"></span></a>
         </li>
         <li>
-          <a href="#"><span className="glyphicon glyphicon-plus nav-icon-1"></span></a>
+          <a href="#">
+          <button name={props.plusName} onClick={props.plusClick} className="glyphicon glyphicon-plus nav-icon-1">
+          </button>
+          </a>
         </li>
         <li>
           <a href="#"><span className="glyphicon glyphicon-minus nav-icon-2"></span></a>
