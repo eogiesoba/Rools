@@ -15,16 +15,27 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
-      show: false
+      electricity: false,
+      gas: false,
+      internet: false,
+      rent: false
     };
   }
 
-  handleClose() {
-    this.setState({ show: false });
+  handleClose () {
+    this.setState({
+      electricity: false,
+      gas: false,
+      internet: false,
+      rent: false
+    });
   }
-
-  handleShow() {
-    this.setState({ show: true });
+  
+  handleShow = event => {
+    const {name} = event.target;
+    this.setState({
+        [name]: true
+    });
   }
 
   render() {
@@ -51,46 +62,37 @@ class Books extends Component {
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron eCard">
-                <button className="e-Icon"></button>
+                <button className="e-Icon" name="electricity" bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+                </button>
                 <h2>Electricity - Bill: $30</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron gCard">
-                <button className="g-Icon"></button>
+                <button className="g-Icon" name="gas" bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+                </button>
                 <h2>Gas - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
           </Row>
           <Row>
             <Col size="md-6">
               <Jumbotron className="jumbotron iCard">
-                <button className="i-Icon"></button>
+                <button className="i-Icon" name="internet" bsStyle="primary" bsSize="large" onClick={this.handleShow}>
+                </button>
                 <h2>Internet - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
             <Col size="md-6 sm-12">
               <Jumbotron className="jumbotron rCard">
-                <button className="r-Icon"></button>
+                <button className="r-Icon" name="rent" bsStyle="primary" bsSize="large" onClick={this.handleShow}></button>
                 <h2>Rent - Bill:</h2>
-                <Button bsStyle="primary" bsSize="large" onClick={this.handleShow}>
-                  Roommate
-                </Button>
               </Jumbotron>
             </Col>
           </Row>
-          <Modal show={this.state.show} onHide={this.handleClose}>
+          <Modal show={this.state.gas} onHide={this.handleClose}>
             <Modal.Header closeButton>
-              <Modal.Title>Modal heading</Modal.Title>
+              <Modal.Title>Natural Gas Bill</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <h4>Text in a modal</h4>
@@ -115,39 +117,129 @@ class Books extends Component {
                 </OverlayTrigger>{' '}
                 here
               </p>
-
               <hr />
-
               <h4>Overflowing text to show scroll behavior</h4>
               <p>
                 Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
                 dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
                 ac consectetur ac, vestibulum at eros.
               </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.handleClose}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={this.state.electricity} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Electricity Bill</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>Text in a modal</h4>
               <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor.
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
               </p>
+
+              <h4>Popover in a modal</h4>
               <p>
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-                dui. Donec ullamcorper nulla non metus auctor fringilla.
+                there is a{' '}
+                <OverlayTrigger overlay={popover}>
+                  <a href="#popover">popover</a>
+                </OverlayTrigger>{' '}
+                here
               </p>
+
+              <h4>Tooltips in a modal</h4>
+              <p>
+                there is a{' '}
+                <OverlayTrigger overlay={tooltip}>
+                  <a href="#tooltip">tooltip</a>
+                </OverlayTrigger>{' '}
+                here
+              </p>
+              <hr />
+              <h4>Overflowing text to show scroll behavior</h4>
               <p>
                 Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
                 dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
                 ac consectetur ac, vestibulum at eros.
               </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.handleClose}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={this.state.internet} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Internet Bill</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>Text in a modal</h4>
               <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur
-                et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
-                auctor.
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
               </p>
+
+              <h4>Popover in a modal</h4>
               <p>
-                Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
-                cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
-                dui. Donec ullamcorper nulla non metus auctor fringilla.
+                there is a{' '}
+                <OverlayTrigger overlay={popover}>
+                  <a href="#popover">popover</a>
+                </OverlayTrigger>{' '}
+                here
+              </p>
+
+              <h4>Tooltips in a modal</h4>
+              <p>
+                there is a{' '}
+                <OverlayTrigger overlay={tooltip}>
+                  <a href="#tooltip">tooltip</a>
+                </OverlayTrigger>{' '}
+                here
+              </p>
+              <hr />
+              <h4>Overflowing text to show scroll behavior</h4>
+              <p>
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+                ac consectetur ac, vestibulum at eros.
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button onClick={this.handleClose}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+          <Modal show={this.state.rent} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Rent Bill</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <h4>Text in a modal</h4>
+              <p>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </p>
+
+              <h4>Popover in a modal</h4>
+              <p>
+                there is a{' '}
+                <OverlayTrigger overlay={popover}>
+                  <a href="#popover">popover</a>
+                </OverlayTrigger>{' '}
+                here
+              </p>
+
+              <h4>Tooltips in a modal</h4>
+              <p>
+                there is a{' '}
+                <OverlayTrigger overlay={tooltip}>
+                  <a href="#tooltip">tooltip</a>
+                </OverlayTrigger>{' '}
+                here
+              </p>
+              <hr />
+              <h4>Overflowing text to show scroll behavior</h4>
+              <p>
+                Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+                dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+                ac consectetur ac, vestibulum at eros.
               </p>
             </Modal.Body>
             <Modal.Footer>
