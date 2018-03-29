@@ -5,14 +5,15 @@ import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import PrivateRoute from "./components/PrivateRoute"
 
 const App = () =>
   <Router>
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/books" component={Books} />
-        {/* <Route exact path="/books/:id" component={Detail} /> */}
+        {/* <Route exact path="/books" component={Books} /> */}
+        <PrivateRoute path='/books' component={Books} />
         <Route component={NoMatch} />
       </Switch>
   </Router>;
