@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class SignIn extends Component {
     state = {
         username: "",
         password: ""
     };
-    
+
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -18,16 +18,19 @@ class SignIn extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault();
-        if (this.state.title && this.state.author) {
-            API.saveBook({
-                title: this.state.title,
-                author: this.state.author,
-                synopsis: this.state.synopsis
-            })
-                .then(res => this.loadBooks())
-                .catch(err => console.log(err));
-        }
+        API.loginUser({
+            username: this.state.username,
+            password: this.state.password
+        })
+        .then(res => this.redirectPage())
+        .catch(err => console.log(err));
+        console.log("Redirecting now");
     };
+
+    redirectPage = () => {
+        console.log("hello!")
+        this.props.history.push('/books')
+    }
 
     render() {
         return (
@@ -38,23 +41,27 @@ class SignIn extends Component {
                             <h1 className="form-title">ROOLS</h1>
                             <h5 className="sub-title">Manage all your bills in 1 place</h5>
                             <form className="login">
-                                <input 
-                                type="text"
-                                value={this.state.username}
-                                onChange={this.handleInputChange}
-                                name="username"
-                                placeholder="Username"
+                                <input
+                                    type="text"
+                                    value={this.state.username}
+                                    onChange={this.handleInputChange}
+                                    name="username"
+                                    placeholder="Username"
                                 />
-                                <input 
-                                type="password"
-                                value={this.state.password}
-                                onChange={this.handleInputChange}
-                                name="password"
-                                placeholder="Password"
+                                <input
+                                    type="password"
+                                    value={this.state.password}
+                                    onChange={this.handleInputChange}
+                                    name="password"
+                                    placeholder="Password"
                                 />
-                                <Link to={"/books"}>
-                                    <button type="button" value="Sign In" className="btn-login">Log In</button>
-                                </Link>
+                                <button
+                                    type="button"
+                                    name="login"
+                                    className="btn-login"
+                                    onClick={this.handleFormSubmit}>
+                                    Log In
+                                </button>
                                 <Link to={"/signup"}>
                                     <button type="button" value="Sign Up" className="btn-signUp">Sign Up</button>
                                 </Link>

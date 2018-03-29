@@ -12,8 +12,7 @@ const App = () =>
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        {/* <Route exact path="/books" component={Books} /> */}
-        <PrivateRoute path='/books' component={Books} />
+        <Route path='/books' component={Books} />
         <Route component={NoMatch} />
       </Switch>
   </Router>;
