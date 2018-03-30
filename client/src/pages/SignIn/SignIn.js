@@ -22,15 +22,15 @@ class SignIn extends Component {
             username: this.state.username,
             password: this.state.password
         })
-        .then(res => this.redirectPage())
+        .then(res => this.props.history.push(res.data))
         .catch(err => console.log(err));
         console.log("Redirecting now");
     };
 
-    redirectPage = () => {
-        console.log("hello!")
-        this.props.history.push('/books')
-    }
+    // redirectPage = () => {
+    //     console.log("hello!")
+    //     this.props.history.push('/books')
+    // }
 
     render() {
         return (
