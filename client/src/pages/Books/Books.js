@@ -18,6 +18,7 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
+      userData: {},
       electricity: false,
       gas: false,
       internet: false,
@@ -69,6 +70,17 @@ class Books extends Component {
       [name]: value
     });
   };
+  componentDidMount(){
+    this.getUserData();
+  }
+  getUserData = () => {
+    API.getUser({})
+      .then(res => {
+        this.setState({ userData: res });
+        console.log(this.state.userData)
+      })
+      .catch(err => console.log(err))
+  }
 
   render() {
     const popover = (
@@ -223,14 +235,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
@@ -263,14 +275,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
@@ -303,14 +315,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
