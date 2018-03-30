@@ -33,7 +33,7 @@ const production = "mongodb://user:password@ds123499.mlab.com:23499/heroku_jxl98
 
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || dev,
+  process.env.MONGODB_URI || production,
   {
     useMongoClient: true
   }
