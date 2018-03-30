@@ -251,7 +251,7 @@ button[disabled], html input[disabled] {
 }
 .m-Icon{
     background-image: url("images/money.png");
-    margin: 6px 0px 0px 18px;
+    margin: 10px 0px 0px 18px;
 }
 .u-Icon{
     background-image: url("images/user.png");
