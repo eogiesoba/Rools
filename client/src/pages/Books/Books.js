@@ -9,6 +9,16 @@ import {
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
+const status = {
+  isAuth: false,
+  userData: {},
+  authenticate() {
+    this.isAuth = true;
+  },
+  signout() {
+    this.isAuth = false;
+  }
+};
 
 class Books extends Component {
   constructor(props, context) {
@@ -18,7 +28,7 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
-      userData: {},
+      userData: "",
       electricity: false,
       gas: false,
       internet: false,
@@ -76,10 +86,13 @@ class Books extends Component {
   getUserData = () => {
     API.getUser({})
       .then(res => {
-        this.setState({ userData: res });
-        console.log(this.state.userData)
+        status.userData = res.data;
+        this.mountUser();
       })
       .catch(err => console.log(err))
+  }
+  mountUser = () => {
+      this.setState({ userData: {username: status.userData.username} });
   }
 
   render() {
@@ -92,7 +105,12 @@ class Books extends Component {
 
     return (
       <div className="mainBackground">
-        <Nav plusName="plus" plusClick={this.handleShow} minusName="minus" minusClick={this.handleShow} />
+        <Nav 
+        plusName="plus" 
+        plusClick={this.handleShow} 
+        minusName="minus" 
+        minusClick={this.handleShow} 
+        username={this.state.userData.username}/>
         <Container fluid>
           <Row>
             <Col size="md-12">
