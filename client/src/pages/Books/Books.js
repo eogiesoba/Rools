@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
 import {
@@ -9,6 +9,9 @@ import {
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
+const status = {
+  userData: {}
+};
 
 class Books extends Component {
   constructor(props, context) {
@@ -18,6 +21,8 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
+      userData: "",
+      Auth: true,
       electricity: false,
       gas: false,
       internet: false,
@@ -69,18 +74,79 @@ class Books extends Component {
       [name]: value
     });
   };
+  componentDidMount(){
+    this.getUserData();
+  }
+  getUserData = () => {
+    API.getUser({})
+      .then(res => {
+        status.userData = res.data;
+        if(status.userData.username){
+          this.setState({ 
+            userData: {username: status.userData.username},
+            Auth: true
+          });
+        }
+        else{
+          this.setState({ 
+            userData: {username: status.userData.username},
+            Auth: false
+          });
+        }
+      })
+      // .then(res => {
+      //   this.mountUser();
+      // })
+      .catch(err => console.log(err))
+      
+  }
+  mountUser = () => {
+    console.log("Mount isAuth! " ,status.Auth);
+    this.setState({ userData: {username: status.userData.username} });
+      // if(status.userData.username){
+      //   this.setState({ userData: {username: status.userData.username} });
+      //   console.log("The UserName is good Mount Boy: " ,status.userData.username);
+      // }
+      // else{
+      //   return <Redirect to={"/"} />;
+      //   console.log("Redirect boy!: " ,status.userData.username);
+      // }
+  }
+  logOut = () => {
+    console.log("Logging out now");
+    API.logOutUser({})
+      .then(res => {
+        // this.setState({ Auth: false });
+      })
+      .catch(err => console.log(err))
+  }
 
   render() {
+
+    if (this.state.Auth) {
+      console.log("You are authorized!");
+    }
+    else{
+      return <Redirect to={"/"} />;
+    }
+
     const popover = (
       <Popover id="modal-popover" title="popover">
         very popover. such engagement
       </Popover>
     );
+
     const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
 
     return (
       <div className="mainBackground">
-        <Nav plusName="plus" plusClick={this.handleShow} minusName="minus" minusClick={this.handleShow} />
+        <Nav 
+        plusName="plus" 
+        plusClick={this.handleShow} 
+        minusName="minus" 
+        minusClick={this.handleShow} 
+        username={this.state.userData.username}
+        logOut={this.logOut}/>
         <Container fluid>
           <Row>
             <Col size="md-12">
@@ -223,14 +289,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
@@ -263,14 +329,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl
@@ -303,14 +369,14 @@ class Books extends Component {
                   />
                 </InputGroup>
               </FormGroup>
-              <br/>
+              <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">Ryan</option>
                   <option value="other">Samuel</option>
                 </FormControl>
-                <br/>
+                <br />
                 <InputGroup>
                   <InputGroup.Addon>$</InputGroup.Addon>
                   <FormControl

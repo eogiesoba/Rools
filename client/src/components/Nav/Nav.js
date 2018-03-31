@@ -6,7 +6,7 @@ const Nav = props =>
       <div className="navbar-header">
         <p className="navbar-text navbar-left">ROOLS</p>
       </div>
-      <h1 className="welcome">Welcome Andrew23</h1>
+      <h1 className="welcome">Welcome {props.username}</h1>
       <ul className="nav navbar-nav navbar-right">
         <li>
           <a href="#">
@@ -21,7 +21,11 @@ const Nav = props =>
           </a>
         </li>
         <li>
-          <a href="#" className="nav-icon-4">Log Out</a>
+          <a href="" className="nav-icon-4">
+          <button onClick={props.logOut} className="btn">
+          Log Out
+          </button>
+          </a>
         </li>
       </ul>
     </div>
