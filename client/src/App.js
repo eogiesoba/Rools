@@ -12,9 +12,9 @@ import { Link, Redirect } from "react-router-dom";
 const App = () =>
   <Router>
       <Switch>
-        <PrivateRoute1 exact path="/" component={SignIn} />
+        <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        <PrivateRoute2 path='/books' component={Books} />
+        <Route path='/books' component={Books} />
         <Route component={NoMatch} />
       </Switch>
   </Router>;

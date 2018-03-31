@@ -20,6 +20,9 @@ export default {
   loginUser: function(user) {
     return axios.post("/api/login", user);
   },
+  logOutUser: function(user) {
+    return axios.get("/api/logout");
+  },
   getUser: function(user) {
     return axios.get("/api/login");
   },

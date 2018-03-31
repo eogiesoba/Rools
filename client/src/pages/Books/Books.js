@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
 import {
@@ -10,14 +10,7 @@ import {
 } from 'react-bootstrap';
 
 const status = {
-  isAuth: false,
-  userData: {},
-  authenticate() {
-    this.isAuth = true;
-  },
-  signout() {
-    this.isAuth = false;
-  }
+  userData: {}
 };
 
 class Books extends Component {
@@ -29,6 +22,7 @@ class Books extends Component {
 
     this.state = {
       userData: "",
+      Auth: true,
       electricity: false,
       gas: false,
       internet: false,
@@ -87,20 +81,61 @@ class Books extends Component {
     API.getUser({})
       .then(res => {
         status.userData = res.data;
-        this.mountUser();
+        if(status.userData.username){
+          this.setState({ 
+            userData: {username: status.userData.username},
+            Auth: true
+          });
+        }
+        else{
+          this.setState({ 
+            userData: {username: status.userData.username},
+            Auth: false
+          });
+        }
+      })
+      // .then(res => {
+      //   this.mountUser();
+      // })
+      .catch(err => console.log(err))
+      
+  }
+  mountUser = () => {
+    console.log("Mount isAuth! " ,status.Auth);
+    this.setState({ userData: {username: status.userData.username} });
+      // if(status.userData.username){
+      //   this.setState({ userData: {username: status.userData.username} });
+      //   console.log("The UserName is good Mount Boy: " ,status.userData.username);
+      // }
+      // else{
+      //   return <Redirect to={"/"} />;
+      //   console.log("Redirect boy!: " ,status.userData.username);
+      // }
+  }
+  logOut = () => {
+    console.log("Logging out now");
+    API.logOutUser({})
+      .then(res => {
+        // this.setState({ Auth: false });
       })
       .catch(err => console.log(err))
   }
-  mountUser = () => {
-      this.setState({ userData: {username: status.userData.username} });
-  }
 
   render() {
+
+    if (this.state.Auth) {
+      console.log("You are authorized!");
+    }
+    else{
+      return <Redirect to={"/"} />;
+    }
+
     const popover = (
       <Popover id="modal-popover" title="popover">
         very popover. such engagement
       </Popover>
     );
+
     const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
 
     return (
@@ -110,7 +145,8 @@ class Books extends Component {
         plusClick={this.handleShow} 
         minusName="minus" 
         minusClick={this.handleShow} 
-        username={this.state.userData.username}/>
+        username={this.state.userData.username}
+        logOut={this.logOut}/>
         <Container fluid>
           <Row>
             <Col size="md-12">
