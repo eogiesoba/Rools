@@ -46,6 +46,15 @@ class SignUp extends Component {
                 email: this.state.email,
                 password: this.state.password
             })
+            //Need a get request to get newly registered user's ID to appped to default bill and roommate post
+            //
+            // .then(API.saveBills({
+            //     electricity: 0,
+            //     gas: 0,
+            //     internet: 0,
+            //     rent: 0,
+            //     data: ["February", "2019"]
+            // }))
             .then(res => this.handleShow())
             .catch(err => console.log(err));
         }

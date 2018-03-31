@@ -22,5 +22,12 @@ export default {
   },
   getUser: function(user) {
     return axios.get("/api/login");
+  },
+  //Saves default user bills and rommates
+  saveBills: function(bills) {
+    return axios.post("/api/bills", bills);
+  },
+  saveRoommates: function(roommates) {
+    return axios.post("/api/roommates", roommates);
   }
 };
