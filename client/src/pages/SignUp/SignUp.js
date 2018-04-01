@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import API from "../../utils/API";
 import { Link } from "react-router-dom";
-import {Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 class SignUp extends Component {
     constructor(props, context) {
         super(props, context);
-    
+
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
-    
+
         this.state = {
             email: "",
             username: "",
@@ -17,7 +17,7 @@ class SignUp extends Component {
             thankYou: false
         };
     }
-    
+
     handleClose() {
         this.setState({
             thankYou: false
@@ -46,15 +46,28 @@ class SignUp extends Component {
                 email: this.state.email,
                 password: this.state.password
             })
-            //Need a get request to get newly registered user's ID to appped to default bill and roommate post
-            //
-            // .then(API.saveBills({
-            //     electricity: 0,
-            //     gas: 0,
-            //     internet: 0,
-            //     rent: 0,
-            //     data: ["February", "2019"]
-            // }))
+            .then(res => 
+                API.saveBills({
+                    electricity: 0,
+                    gas: 0,
+                    internet: 0,
+                    rent: 0,
+                    date: ["March", "2018"],
+                    email: this.state.email
+                })
+            )
+            .then(res => 
+                API.saveRoommates({
+                    names: [],
+                    Ep: [],
+                    Gp: [],
+                    Ip: [],
+                    Rp: [],
+                    date: ["March", "2018"],
+                    email: this.state.email
+                })
+            )
+            .catch(err => console.log(err))
             .then(res => this.handleShow())
             .catch(err => console.log(err));
         }

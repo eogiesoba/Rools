@@ -39,7 +39,7 @@ const PrivateRoute1 = ({ component: Component, ...rest }) => (
 
 class SignIn extends Component {
   state = {
-      username: "",
+      email: "",
       password: "",
       redirectToReferrer: false
   };
@@ -55,7 +55,7 @@ class SignIn extends Component {
   handleFormSubmit = event => {
       event.preventDefault();
       API.loginUser({
-          username: this.state.username,
+          email: this.state.email,
           password: this.state.password
       })
       .then(res => {
@@ -95,10 +95,10 @@ class SignIn extends Component {
                           <form className="login">
                               <input
                                   type="text"
-                                  value={this.state.username}
+                                  value={this.state.email}
                                   onChange={this.handleInputChange}
-                                  name="username"
-                                  placeholder="Username"
+                                  name="email"
+                                  placeholder="Email"
                               />
                               <input
                                   type="password"

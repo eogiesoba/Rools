@@ -4,8 +4,7 @@ import API from "../../utils/API";
 import { Link, Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
-import {
-  Popover, Tooltip, Button, Modal, OverlayTrigger,
+import {Button, Modal, OverlayTrigger,
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
@@ -22,6 +21,8 @@ class Books extends Component {
 
     this.state = {
       userData: "",
+      userBills: "",
+      userRoommates: "",
       Auth: true,
       electricity: false,
       gas: false,
@@ -74,50 +75,59 @@ class Books extends Component {
       [name]: value
     });
   };
-  componentDidMount(){
-    this.getUserData();
+  componentDidMount() {
+    this.findUser();
   }
-  getUserData = () => {
-    API.getUser({})
+  findUser = () => {
+    API.findUser({})
       .then(res => {
         status.userData = res.data;
-        if(status.userData.username){
-          this.setState({ 
-            userData: {username: status.userData.username},
+        if (status.userData.username) {
+          console.log("email :", status.userData.email)
+          this.setState({
+            userData: { 
+              username: status.userData.username,
+              email:  status.userData.email
+            },
             Auth: true
           });
+          this.findUserData();
         }
-        else{
-          this.setState({ 
-            userData: {username: status.userData.username},
+        else {
+          this.setState({
+            userData: { username: status.userData.username },
             Auth: false
           });
         }
       })
-      // .then(res => {
-      //   this.mountUser();
-      // })
       .catch(err => console.log(err))
-      
   }
-  mountUser = () => {
-    console.log("Mount isAuth! " ,status.Auth);
-    this.setState({ userData: {username: status.userData.username} });
-      // if(status.userData.username){
-      //   this.setState({ userData: {username: status.userData.username} });
-      //   console.log("The UserName is good Mount Boy: " ,status.userData.username);
-      // }
-      // else{
-      //   return <Redirect to={"/"} />;
-      //   console.log("Redirect boy!: " ,status.userData.username);
-      // }
+
+  findUserData = () => {
+      console.log("Finding User Bills and Roommates!")
+      API.findBills({
+        email: this.state.email,
+        date: ["March", "2018"]
+      })
+      .then(res => {
+        this.setState({ userBills: res.data[0] });
+        console.log("UserBills: ", this.state.userBills)
+        API.findRoommates({
+          email: this.state.email,
+          date: ["March", "2018"]
+        })
+        .then(res => {
+          this.setState({ userRoommates: res.data[0] });
+          console.log("UserRoommates: ", this.state.userRoommates)
+        })
+      })
+      .catch(err => console.log(err));
   }
+
   logOut = () => {
     console.log("Logging out now");
     API.logOutUser({})
-      .then(res => {
-        // this.setState({ Auth: false });
-      })
+      .then(res => {})
       .catch(err => console.log(err))
   }
 
@@ -126,27 +136,19 @@ class Books extends Component {
     if (this.state.Auth) {
       console.log("You are authorized!");
     }
-    else{
+    else {
       return <Redirect to={"/"} />;
     }
 
-    const popover = (
-      <Popover id="modal-popover" title="popover">
-        very popover. such engagement
-      </Popover>
-    );
-
-    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
     return (
       <div className="mainBackground">
-        <Nav 
-        plusName="plus" 
-        plusClick={this.handleShow} 
-        minusName="minus" 
-        minusClick={this.handleShow} 
-        username={this.state.userData.username}
-        logOut={this.logOut}/>
+        <Nav
+          plusName="plus"
+          plusClick={this.handleShow}
+          minusName="minus"
+          minusClick={this.handleShow}
+          username={this.state.userData.username}
+          logOut={this.logOut} />
         <Container fluid>
           <Row>
             <Col size="md-12">

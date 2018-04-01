@@ -19,7 +19,8 @@ router.route("/")
             // Otherwise send back the user's email and id
             // Sending back a password, even a hashed password, isn't a good idea
             res.json({
-                username: req.user.username
+                username: req.user.username,
+                email: req.user.email
             });
         }
     });

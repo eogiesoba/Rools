@@ -19,7 +19,10 @@ const BillSchema = new Schema({
         required: true,
     },
     date: [String],
-    userID: {type: Schema.Types.ObjectId}
+    email: { 
+        type: String, 
+        required: true 
+    }
 });
 
 const Bill = mongoose.model("Bill", BillSchema);

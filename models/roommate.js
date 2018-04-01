@@ -8,7 +8,10 @@ const RoommateSchema = new Schema({
     Ip: [Number],
     Rp: [Number],
     date: [String],
-    userID: {type: Schema.Types.ObjectId}
+    email: { 
+        type: String, 
+        required: true 
+    }
 });
 
 const Roommate = mongoose.model("Roommate", RoommateSchema);
