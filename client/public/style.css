@@ -259,4 +259,7 @@ button[disabled], html input[disabled] {
 .e-Icon:hover, .g-Icon:hover, .i-Icon:hover, .r-Icon:hover{
     opacity: 0.70;
 }
+.clear{
+    clear: left;
+}
 /*Main display CSS above--------------------------------------------------*/

@@ -4,7 +4,8 @@ import API from "../../utils/API";
 import { Link, Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
-import {Button, Modal, OverlayTrigger,
+import {
+  Button, Modal, OverlayTrigger,
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
@@ -25,6 +26,7 @@ class Books extends Component {
       userData: "",
       userBills: "",
       userRoommates: "",
+      eachRoommate: [],
       Auth: true,
       electricity: false,
       gas: false,
@@ -32,7 +34,10 @@ class Books extends Component {
       rent: false,
       plus: false,
       minus: false,
-
+      Ep: [],
+      Gp: [],
+      Ip: [],
+      Rp: [],
       eBill: "",
       gBill: "",
       iBill: "",
@@ -41,7 +46,7 @@ class Books extends Component {
       roommate: ""
     };
   }
-
+  
   handleClose() {
     this.setState({
       electricity: false,
@@ -92,9 +97,9 @@ class Books extends Component {
         if (status.userData.username) {
           console.log("email :", status.userData.email)
           this.setState({
-            userData: { 
+            userData: {
               username: status.userData.username,
-              email:  status.userData.email
+              email: status.userData.email
             },
             Auth: true
           });
@@ -111,11 +116,11 @@ class Books extends Component {
   }
 
   findUserData = () => {
-      console.log("Finding User Bills and Roommates!")
-      API.findBills({
-        email: this.state.email,
-        date: ["March", "2018"]
-      })
+    console.log("Finding User Bills and Roommates!")
+    API.findBills({
+      email: this.state.email,
+      date: ["March", "2018"]
+    })
       .then(res => {
         this.setState({ userBills: res.data[0] });
         console.log("UserBills: ", this.state.userBills)
@@ -123,10 +128,17 @@ class Books extends Component {
           email: this.state.email,
           date: ["March", "2018"]
         })
-        .then(res => {
-          this.setState({ userRoommates: res.data[0] });
-          console.log("UserRoommates: ", this.state.userRoommates)
-        })
+          .then(res => {
+            this.setState({ 
+              userRoommates: res.data[0],
+              eachRoommate: res.data[0].names,
+              Ep: res.data[0].Ep, 
+              Gp: res.data[0].Gp, 
+              Ip: res.data[0].Ip, 
+              Rp: res.data[0].Rp
+            });
+            console.log("UserRoommates: ", this.state.userRoommates)
+          })
       })
       .catch(err => console.log(err));
   }
@@ -134,7 +146,7 @@ class Books extends Component {
   logOut = () => {
     console.log("Logging out now");
     API.logOutUser({})
-      .then(res => {})
+      .then(res => { })
       .catch(err => console.log(err))
   }
 
@@ -156,19 +168,28 @@ class Books extends Component {
   }
 
   addRoommate = () => {
-    var roommateARR = this.state.userRoommates.names;
+    const roommateARR = this.state.userRoommates.names;
     roommateARR.push(this.state.roommate);
-    if(this.state.roommate){
+    var Ep = this.state.Ep; Ep.push(0);
+    var Gp = this.state.Gp; Gp.push(0);
+    var Ip = this.state.Ip; Ip.push(0);
+    var Rp = this.state.Rp; Rp.push(0);
+  
+    if (this.state.roommate) {
       console.log("Adding roommates!")
       var roomObj = {
         names: roommateARR,
+        Ep: Ep,
+        Gp: Gp,
+        Ip: Ip,
+        Rp: Rp,
         date: ["March", "2018"],
         email: this.state.userData.email
       }
-      console.log("RoomOBJ:",roomObj)
+      console.log("RoomOBJ:", roomObj)
       API.updateRoommates(roomObj)
-      .then(res => { this.handleClose() })
-      .catch(err => console.log(err));
+        .then(res => { this.handleClose() })
+        .catch(err => console.log(err));
     }
   }
 
@@ -180,7 +201,7 @@ class Books extends Component {
     else {
       return <Redirect to={"/"} />;
     }
-
+    
     return (
       <div className="mainBackground">
         <Nav
@@ -213,8 +234,15 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan owes you $<span>10 </span>(<span>33</span>%)</h3>
+                    {this.state.eachRoommate.map(elem =>
+                      <div className="clear">
+                        <span className="u-Icon"></span>
+                        <h3>{elem} owes you $
+                          <span>{this.state.Ep[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>33</span>%)
+                        </h3>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Jumbotron>
