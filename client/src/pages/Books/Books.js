@@ -237,7 +237,7 @@ class Books extends Component {
                     {this.state.eachRoommate.map(elem =>
                       <div className="clear">
                         <span className="u-Icon"></span>
-                        <h3>{elem} owes you $
+                        <h3>{elem} paid you $
                           <span>{this.state.Ep[this.state.eachRoommate.indexOf(elem)]} </span>
                           (<span>33</span>%)
                         </h3>
@@ -259,8 +259,15 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                    <div className="clear">
+                      <span className="u-Icon"></span>
+                      <h3>{elem} paid you $
+                        <span>{this.state.Gp[this.state.eachRoommate.indexOf(elem)]} </span>
+                        (<span>33</span>%)
+                      </h3>
+                    </div>
+                  )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -279,8 +286,15 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>24 </span>(<span>50</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                    <div className="clear">
+                      <span className="u-Icon"></span>
+                      <h3>{elem} paid you $
+                        <span>{this.state.Ip[this.state.eachRoommate.indexOf(elem)]} </span>
+                        (<span>33</span>%)
+                      </h3>
+                    </div>
+                  )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -296,8 +310,15 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                    <div className="clear">
+                      <span className="u-Icon"></span>
+                      <h3>{elem} paid you $
+                        <span>{this.state.Rp[this.state.eachRoommate.indexOf(elem)]} </span>
+                        (<span>33</span>%)
+                      </h3>
+                    </div>
+                  )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -324,8 +345,9 @@ class Books extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                  {this.state.eachRoommate.map(elem =>
+                    <option value="select">{elem}</option>
+                  )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -364,8 +386,9 @@ class Books extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                {this.state.eachRoommate.map(elem =>
+                  <option value="select">{elem}</option>
+                )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -404,8 +427,9 @@ class Books extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                {this.state.eachRoommate.map(elem =>
+                  <option value="select">{elem}</option>
+                )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -444,8 +468,9 @@ class Books extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                {this.state.eachRoommate.map(elem =>
+                  <option value="select">{elem}</option>
+                )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -497,8 +522,9 @@ class Books extends Component {
               <FormGroup controlId="formControlsSelect">
                 <ControlLabel>Select</ControlLabel>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                {this.state.eachRoommate.map(elem =>
+                  <option value="select">{elem}</option>
+                )}
                 </FormControl>
               </FormGroup>
             </Modal.Body>
