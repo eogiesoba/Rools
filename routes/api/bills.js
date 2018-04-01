@@ -4,7 +4,8 @@ const billsController = require("../../controllers/billsController");
 // Matches with "/api/bills"
 router.route("/")
   .get(billsController.findAll)
-  .post(billsController.create);
+  .post(billsController.create)
+  .put(billsController.update);
 
 // Matches with "/api/bills/:id"
 router

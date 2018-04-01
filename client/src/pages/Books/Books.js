@@ -8,6 +8,7 @@ import {Button, Modal, OverlayTrigger,
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
+const currentDate = "March 2018"; //Current Date
 const status = {
   userData: {}
 };
@@ -20,6 +21,7 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
+      date: "March 2018",
       userData: "",
       userBills: "",
       userRoommates: "",
@@ -67,17 +69,22 @@ class Books extends Component {
       this.setState({
         [name]: value
       });
+      console.log(name, "Money: ", this.state[name]);
     }
   };
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
+    console.log(name, ": ", this.state[name]);
   };
+
   componentDidMount() {
     this.findUser();
   }
+
   findUser = () => {
     API.findUser({})
       .then(res => {
@@ -131,6 +138,40 @@ class Books extends Component {
       .catch(err => console.log(err))
   }
 
+  updateRoommate = event => {
+    // const { name } = event.target;
+    // this.setState({
+    //   [name]: true
+    // });
+    // var newFolder = document.getElementById("addFolder").value;
+    API.updateRoommates({
+      names: [],
+      Ep: [],
+      Gp: [],
+      Ip: [],
+      Rp: [],
+      date: this.state.date,
+      email: this.state.userData.email
+    })
+  }
+
+  addRoommate = () => {
+    var roommateARR = this.state.userRoommates.names;
+    roommateARR.push(this.state.roommate);
+    if(this.state.roommate){
+      console.log("Adding roommates!")
+      var roomObj = {
+        names: roommateARR,
+        date: ["March", "2018"],
+        email: this.state.userData.email
+      }
+      console.log("RoomOBJ:",roomObj)
+      API.updateRoommates(roomObj)
+      .then(res => { this.handleClose() })
+      .catch(err => console.log(err));
+    }
+  }
+
   render() {
 
     if (this.state.Auth) {
@@ -154,7 +195,7 @@ class Books extends Component {
             <Col size="md-12">
               <div className="dateBlock">
                 <button className="dateButton"><span className="glyphicon glyphicon-menu-left"></span></button>
-                <span className="date">February 2019</span>
+                <span className="date">{this.state.date}</span>
                 <button className="dateButton"><span className="glyphicon glyphicon-menu-right"></span></button>
               </div>
             </Col>
@@ -166,7 +207,7 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="e-Icon" name="electricity" onClick={this.handleShow}>
                     </button>
-                    <h2>Electricity - Bill: $<span>30</span></h2>
+                    <h2>Electricity - Bill: $<span>{this.state.userBills.electricity}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
@@ -184,7 +225,7 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="g-Icon" name="gas" onClick={this.handleShow}>
                     </button>
-                    <h2>Gas - Bill: $<span>30</span></h2>
+                    <h2>Gas - Bill: $<span>{this.state.userBills.gas}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
@@ -204,7 +245,7 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="i-Icon" name="internet" onClick={this.handleShow}>
                     </button>
-                    <h2>Internet - Bill: $<span>48</span></h2>
+                    <h2>Internet - Bill: $<span>{this.state.userBills.internet}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
@@ -221,7 +262,7 @@ class Books extends Component {
                 <Row>
                   <Col size="md-12">
                     <button className="r-Icon" name="rent" onClick={this.handleShow}></button>
-                    <h2>Rent - Bill: $<span>30</span></h2>
+                    <h2>Rent - Bill: $<span>{this.state.userBills.rent}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
@@ -405,7 +446,8 @@ class Books extends Component {
                 <InputGroup>
                   <FormControl
                     type="text"
-                    name={this.state.roommate}
+                    value={this.state.roommate}
+                    name="roommate"
                     placeholder="Enter Roommate"
                     onChange={this.handleInputChange}
                   />
@@ -413,7 +455,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Add</Button>
+              <Button onClick={this.addRoommate}>Add</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>

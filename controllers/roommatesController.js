@@ -23,7 +23,7 @@ module.exports = {
   },
   update: function(req, res) {
     db.Roommate
-      .findOneAndUpdate({ _id: req.params.id }, req.body)
+      .findOneAndUpdate({ email: req.body.email, date: req.body.date }, req.body)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
