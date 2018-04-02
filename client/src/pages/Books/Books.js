@@ -161,28 +161,37 @@ class Books extends Component {
     const index = this.state.eachRoommate.indexOf(roommate);
     console.log("Roommate Index: ", index)
 
-    const stateBAN= bType[0].toUpperCase() + "p";
+    const stateBAN = bType[0].toUpperCase() + "p";
     let billArray = [...this.state[stateBAN]];
     billArray[index] = paidAmount;
-    console.log("Bill Array: " + stateBAN , billArray)
-    
-    API.updateBills({
-      [bType]: billAmount,
-      date: "March 2018",
-      email: this.state.userData.email
-    })
-    .then(res =>
-      API.updateRoommates({
-        [stateBAN]: billArray,
+    console.log("Bill Array: " + stateBAN, billArray)
+
+    const sumArr = arr => arr.reduce((a, b) => a + b, 0);
+    const billSum = sumArr(billArray);
+    console.log("Sum of Roommate money: ", billSum);
+
+    if (billSum > billAmount) {
+      console.log("Too much money!");
+    }
+    else {
+      API.updateBills({
+        [bType]: billAmount,
         date: "March 2018",
         email: this.state.userData.email
       })
-    )
-    .then(res => {
-      this.handleClose();
-      this.findUser();
-    })
-    .catch(err => console.log(err));
+        .then(res =>
+          API.updateRoommates({
+            [stateBAN]: billArray,
+            date: "March 2018",
+            email: this.state.userData.email
+          })
+        )
+        .then(res => {
+          this.handleClose();
+          this.findUser();
+        })
+        .catch(err => console.log(err));
+    }
   }
 
   addRoommate = () => {
@@ -283,12 +292,18 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    {this.state.eachRoommate.map(elem =>
+                  {this.state.eachRoommate.map(elem =>
                       <div className="clear">
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
                           <span>{this.state.Ep[this.state.eachRoommate.indexOf(elem)]} </span>
-                          (<span>33</span>%)
+                          (<span>
+                            {Math.round(this.state.Ep[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.electricity * 100)
+                              ? Math.round(this.state.Ep[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.electricity * 100)
+                              : 0}
+                          </span>%)
                         </h3>
                       </div>
                     )}
@@ -312,9 +327,15 @@ class Books extends Component {
                       <div className="clear">
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
-                        <span>{this.state.Gp[this.state.eachRoommate.indexOf(elem)]} </span>
-                          (<span>33</span>%)
-                      </h3>
+                          <span>{this.state.Gp[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Gp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.gas * 100)
+                              ? Math.round(this.state.Gp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.gas * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
                       </div>
                     )}
                   </Col>
@@ -335,13 +356,19 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    {this.state.eachRoommate.map(elem =>
+                  {this.state.eachRoommate.map(elem =>
                       <div className="clear">
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
-                        <span>{this.state.Ip[this.state.eachRoommate.indexOf(elem)]} </span>
-                          (<span>33</span>%)
-                      </h3>
+                          <span>{this.state.Ip[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Ip[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.internet * 100)
+                              ? Math.round(this.state.Ip[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.internet * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
                       </div>
                     )}
                   </Col>
@@ -359,13 +386,19 @@ class Books extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    {this.state.eachRoommate.map(elem =>
+                  {this.state.eachRoommate.map(elem =>
                       <div className="clear">
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
-                        <span>{this.state.Rp[this.state.eachRoommate.indexOf(elem)]} </span>
-                          (<span>33</span>%)
-                      </h3>
+                          <span>{this.state.Rp[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Rp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.rent * 100)
+                              ? Math.round(this.state.Rp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.rent * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
                       </div>
                     )}
                   </Col>
@@ -434,7 +467,7 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
+                <FormControl componentClass="select" placeholder="select" id="electricity">
                   {this.state.eachRoommate.map(elem =>
                     <option value={elem}>{elem}</option>
                   )}
@@ -451,7 +484,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.update_BnR} value="electricity">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -475,7 +508,7 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
+                <FormControl componentClass="select" placeholder="select" id="internet">
                   {this.state.eachRoommate.map(elem =>
                     <option value={elem}>{elem}</option>
                   )}
@@ -492,7 +525,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.update_BnR} value="internet">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -516,7 +549,7 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
+                <FormControl componentClass="select" placeholder="select" id="rent">
                   {this.state.eachRoommate.map(elem =>
                     <option value={elem}>{elem}</option>
                   )}
@@ -533,7 +566,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+            <Button onClick={this.update_BnR} value="rent">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
