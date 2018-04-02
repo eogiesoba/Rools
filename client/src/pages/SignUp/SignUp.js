@@ -67,7 +67,6 @@ class SignUp extends Component {
                     email: this.state.email
                 })
             )
-            .catch(err => console.log(err))
             .then(res => this.handleShow())
             .catch(err => console.log(err));
         }
