@@ -37,14 +37,14 @@ export default {
     return axios.post("/api/roommates", roommates);
   },
   //Finds / Retrieves user's personal info, bills and rommates below
-  findUser: function(user) {
+  findUser: function() {
     return axios.get("/api/login");
   },
   findBills: function(bills) {
-    return axios.get("/api/bills", bills);
+    return axios.get("/api/bills/" + bills);
   },
   findRoommates: function(roommates) {
-    return axios.get("/api/roommates", roommates);
+    return axios.get("/api/roommates/" + roommates);
   },
   //Upate the user's roommates and bills
   updateBills: function(bills) {

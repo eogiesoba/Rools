@@ -7,7 +7,10 @@ const RoommateSchema = new Schema({
     Gp: [Number],
     Ip: [Number],
     Rp: [Number],
-    date: [String],
+    date: { 
+        type: String, 
+        required: true,
+    },
     email: { 
         type: String, 
         required: true 

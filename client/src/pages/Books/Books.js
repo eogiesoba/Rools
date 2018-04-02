@@ -116,18 +116,12 @@ class Books extends Component {
   }
 
   findUserData = () => {
-    console.log("Finding User Bills and Roommates!")
-    API.findBills({
-      email: this.state.email,
-      date: ["March", "2018"]
-    })
+    console.log("Finding User Bills and Roommates!");
+    API.findBills(this.state.date)
       .then(res => {
         this.setState({ userBills: res.data[0] });
         console.log("UserBills: ", this.state.userBills)
-        API.findRoommates({
-          email: this.state.email,
-          date: ["March", "2018"]
-        })
+        API.findRoommates(this.state.date)
           .then(res => {
             this.setState({ 
               userRoommates: res.data[0],
@@ -183,7 +177,7 @@ class Books extends Component {
         Gp: Gp,
         Ip: Ip,
         Rp: Rp,
-        date: ["March", "2018"],
+        date: "March 2018",
         email: this.state.userData.email
       }
       console.log("RoomOBJ:", roomObj)
@@ -212,7 +206,7 @@ class Books extends Component {
       Gp: Gp,
       Ip: Ip,
       Rp: Rp,
-      date: ["March", "2018"],
+      date: "March 2018",
       email: this.state.userData.email
     }
     console.log("RoomOBJ with deleted rommate:", roomObj)

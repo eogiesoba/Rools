@@ -3,7 +3,7 @@ const roommatesController = require("../../controllers/roommatesController");
 
 // Matches with "/api/roommates"
 router.route("/")
-  .get(roommatesController.findAll)
+  // .get(roommatesController.find)
   .post(roommatesController.create)
   .put(roommatesController.update);
 
