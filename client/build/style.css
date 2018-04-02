@@ -153,9 +153,11 @@ button[disabled], html input[disabled] {
 }
 .nav-icon-1{
     color: rgb(16, 30, 230);
+    margin: 20px 10px 0px;
 }
 .nav-icon-2{
     color: rgb(182, 3, 3);
+    margin: 20px 10px 0px;
 }
 .nav-icon-3{
     color: rgb(243, 228, 24);
@@ -163,6 +165,7 @@ button[disabled], html input[disabled] {
 .nav-icon-4{
     color: white;
     font-size: 20x;
+    background: navy;
 }
 .navbar-right{
     margin: 0px;
@@ -236,6 +239,7 @@ button[disabled], html input[disabled] {
     display: block;
     float: left;
     outline: none;
+    background-size: cover;
 }
 .e-Icon{
     background-image: url("images/electricity.png");
@@ -255,8 +259,14 @@ button[disabled], html input[disabled] {
 }
 .u-Icon{
     background-image: url("images/user.png");
+    height: 60px;
+    width: 60px;
 }
 .e-Icon:hover, .g-Icon:hover, .i-Icon:hover, .r-Icon:hover{
     opacity: 0.70;
+}
+.clear{
+    clear: left;
+    margin-bottom: 10px;
 }
 /*Main display CSS above--------------------------------------------------*/

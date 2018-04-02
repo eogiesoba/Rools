@@ -150,7 +150,7 @@ class Books extends Component {
       .catch(err => console.log(err))
   }
 
-  updateRoommate = event => {
+  update_BnR = event => {
     // const { name } = event.target;
     // this.setState({
     //   [name]: true
@@ -168,14 +168,14 @@ class Books extends Component {
   }
 
   addRoommate = () => {
-    const roommateARR = this.state.userRoommates.names;
+    const roommateARR = [...this.state.userRoommates.names];
     roommateARR.push(this.state.roommate);
-    var Ep = this.state.Ep; Ep.push(0);
-    var Gp = this.state.Gp; Gp.push(0);
-    var Ip = this.state.Ip; Ip.push(0);
-    var Rp = this.state.Rp; Rp.push(0);
+    var Ep = [...this.state.Ep]; Ep.push(0);
+    var Gp = [...this.state.Gp]; Gp.push(0);
+    var Ip = [...this.state.Ip]; Ip.push(0);
+    var Rp = [...this.state.Rp]; Rp.push(0);
   
-    if (this.state.roommate) {
+    if (this.state.roommate && roommateARR.length < 4) {
       console.log("Adding roommates!")
       var roomObj = {
         names: roommateARR,
@@ -188,9 +188,40 @@ class Books extends Component {
       }
       console.log("RoomOBJ:", roomObj)
       API.updateRoommates(roomObj)
-        .then(res => { this.handleClose() })
+        .then(res => { 
+          this.handleClose(); 
+          this.findUser();
+        })
         .catch(err => console.log(err));
     }
+  }
+  
+  deleteRoommate = () => {
+    const roommate = document.getElementById("delete").value;
+    const index = this.state.eachRoommate.indexOf(roommate);
+    console.log("Roomate to Delete: ", roommate, "index: ", index);
+    var Ep = [...this.state.Ep]; Ep.splice(index, 1);
+    var Gp = [...this.state.Gp]; Gp.splice(index, 1);
+    var Ip = [...this.state.Ip]; Ip.splice(index, 1);
+    var Rp = [...this.state.Rp]; Rp.splice(index, 1);
+    var names = [...this.state.eachRoommate]; names.splice(index, 1);
+
+    var roomObj = {
+      names: names,
+      Ep: Ep,
+      Gp: Gp,
+      Ip: Ip,
+      Rp: Rp,
+      date: ["March", "2018"],
+      email: this.state.userData.email
+    }
+    console.log("RoomOBJ with deleted rommate:", roomObj)
+    API.updateRoommates(roomObj)
+      .then(res => { 
+        this.handleClose();
+        this.findUser();
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -519,17 +550,17 @@ class Books extends Component {
             </Modal.Header>
             <Modal.Body>
               <h4>Please select roommate to delete</h4>
-              <FormGroup controlId="formControlsSelect">
+              <FormGroup>
                 <ControlLabel>Select</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
+                <FormControl componentClass="select" placeholder="select" id="delete">
                 {this.state.eachRoommate.map(elem =>
-                  <option value="select">{elem}</option>
+                  <option value={elem}>{elem}</option>
                 )}
                 </FormControl>
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Delete</Button>
+              <Button onClick={this.deleteRoommate}>Delete</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
