@@ -3,6 +3,12 @@ import API from "../../utils/API";
 import { Link } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
 
+const mNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const dateToday = new Date();
+const dateMandY = mNames[dateToday.getMonth()] +" "+ dateToday.getFullYear();
+
 class SignUp extends Component {
     constructor(props, context) {
         super(props, context);
@@ -11,6 +17,7 @@ class SignUp extends Component {
         this.handleClose = this.handleClose.bind(this);
 
         this.state = {
+            date: dateMandY,
             email: "",
             username: "",
             password: "",
@@ -52,7 +59,7 @@ class SignUp extends Component {
                     gas: 0,
                     internet: 0,
                     rent: 0,
-                    date: ["March", "2018"],
+                    date: this.state.date,
                     email: this.state.email
                 })
             )
@@ -63,7 +70,7 @@ class SignUp extends Component {
                     Gp: [],
                     Ip: [],
                     Rp: [],
-                    date: ["March", "2018"],
+                    date: this.state.date,
                     email: this.state.email
                 })
             )
