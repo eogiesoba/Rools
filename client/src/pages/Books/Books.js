@@ -5,9 +5,15 @@ import { Link, Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
 import {
-  Popover, Tooltip, Button, Modal, OverlayTrigger,
+  Button, Modal, OverlayTrigger,
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
+
+const mNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const dateToday = new Date();
+const dateMandY = mNames[dateToday.getMonth()] +" "+ dateToday.getFullYear();
 
 const status = {
   userData: {}
@@ -21,7 +27,11 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
+      date: dateMandY,
       userData: "",
+      userBills: "",
+      userRoommates: "",
+      eachRoommate: [],
       Auth: true,
       electricity: false,
       gas: false,
@@ -29,12 +39,15 @@ class Books extends Component {
       rent: false,
       plus: false,
       minus: false,
-
-      eBill: "",
-      gBill: "",
-      iBill: "",
-      rBill: "",
-      paid: "",
+      Ep: [],
+      Gp: [],
+      Ip: [],
+      Rp: [],
+      eBill: 0,
+      gBill: 0,
+      iBill: 0,
+      rBill: 0,
+      paid: 0,
       roommate: ""
     };
   }
@@ -66,59 +79,221 @@ class Books extends Component {
       this.setState({
         [name]: value
       });
+      console.log(name, "Money: ", this.state[name]);
     }
   };
+
   handleInputChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
     });
+    console.log(name, ": ", this.state[name]);
   };
-  componentDidMount(){
-    this.getUserData();
+
+  componentDidMount() {
+    this.findUser();
   }
-  getUserData = () => {
-    API.getUser({})
+
+  findUser = () => {
+    API.findUser({})
       .then(res => {
         status.userData = res.data;
-        if(status.userData.username){
-          this.setState({ 
-            userData: {username: status.userData.username},
+        if (status.userData.username) {
+          console.log("email :", status.userData.email)
+          this.setState({
+            userData: {
+              username: status.userData.username,
+              email: status.userData.email
+            },
             Auth: true
           });
+          this.findUserData();
         }
-        else{
-          this.setState({ 
-            userData: {username: status.userData.username},
+        else {
+          this.setState({
+            userData: { username: status.userData.username },
             Auth: false
           });
         }
       })
-      // .then(res => {
-      //   this.mountUser();
-      // })
       .catch(err => console.log(err))
-      
   }
-  mountUser = () => {
-    console.log("Mount isAuth! " ,status.Auth);
-    this.setState({ userData: {username: status.userData.username} });
-      // if(status.userData.username){
-      //   this.setState({ userData: {username: status.userData.username} });
-      //   console.log("The UserName is good Mount Boy: " ,status.userData.username);
-      // }
-      // else{
-      //   return <Redirect to={"/"} />;
-      //   console.log("Redirect boy!: " ,status.userData.username);
-      // }
+
+  findUserData = () => {
+    console.log("Finding User Bills and Roommates!");
+    API.findBills(this.state.date)
+      .then(res => {
+        console.log("Returned data for bad date REQ: ", res.data[0]);
+        if(res.data[0]){
+          console.log("Set state to bills from DB and get Roommate data :)")
+          this.setState({ userBills: res.data[0] });
+          console.log("UserBills: ", this.state.userBills)
+          API.findRoommates(this.state.date)
+          .then(res => {
+            this.setState({
+              userRoommates: res.data[0],
+              eachRoommate: res.data[0].names,
+              Ep: res.data[0].Ep,
+              Gp: res.data[0].Gp,
+              Ip: res.data[0].Ip,
+              Rp: res.data[0].Rp
+            });
+            console.log("UserRoommates: ", this.state.userRoommates)
+          })
+        }
+        else{
+          console.log(" Run a Post new data to DB function and then recall findUser")
+          API.saveBills({
+            electricity: 0,
+            gas: 0,
+            internet: 0,
+            rent: 0,
+            date: dateMandY,
+            email: this.state.userData.email
+          })
+          .then(res => 
+            API.findRoommates(mNames[dateToday.getMonth() - 1] +" "+ dateToday.getFullYear())
+            .then(res => {
+              const blankArr = res.data[0].Ep.map(elem => 0);
+              API.saveRoommates({
+                names: res.data[0].names,
+                Ep: blankArr,
+                Gp: blankArr,
+                Ip: blankArr,
+                Rp: blankArr,
+                date: dateMandY,
+                email: this.state.userData.email
+              })
+            })
+          )
+          .then(res => this.findUser())
+          .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
   }
+
   logOut = () => {
     console.log("Logging out now");
     API.logOutUser({})
-      .then(res => {
-        // this.setState({ Auth: false });
-      })
+      .then(res => { })
       .catch(err => console.log(err))
+  }
+
+  update_BnR = event => {
+    const bType = event.target.value;
+    console.log("Type of Bill: ", bType)
+
+    const stateBillName = bType[0] + "Bill";
+    const billAmount = Math.round(this.state[stateBillName]);
+    console.log("Bill Amount $: ", billAmount)
+
+    const roommate = document.getElementById(bType).value;
+    console.log("Roommate Name: ", roommate)
+
+    const paidAmount = Math.round(this.state.paid);
+    console.log("Paid Amount $: ", paidAmount)
+
+    const index = this.state.eachRoommate.indexOf(roommate);
+    console.log("Roommate Index: ", index)
+
+    const stateBAN = bType[0].toUpperCase() + "p";
+    let billArray = [...this.state[stateBAN]];
+    billArray[index] = paidAmount;
+    console.log("Bill Array: " + stateBAN, billArray)
+
+    const sumArr = arr => arr.reduce((a, b) => a + b, 0);
+    const billSum = sumArr(billArray);
+    console.log("Sum of Roommate money: ", billSum);
+
+    if (billSum > billAmount) {
+      console.log("Too much money!");
+    }
+    else {
+      API.updateBills({
+        [bType]: billAmount,
+        date: dateMandY,
+        email: this.state.userData.email
+      })
+        .then(res =>
+          API.updateRoommates({
+            [stateBAN]: billArray,
+            date: dateMandY,
+            email: this.state.userData.email
+          })
+        )
+        .then(res => {
+          this.handleClose();
+          this.findUser();
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
+  addRoommate = () => {
+    const roommateARR = [...this.state.userRoommates.names];
+    roommateARR.push(this.state.roommate);
+    var Ep = [...this.state.Ep]; Ep.push(0);
+    var Gp = [...this.state.Gp]; Gp.push(0);
+    var Ip = [...this.state.Ip]; Ip.push(0);
+    var Rp = [...this.state.Rp]; Rp.push(0);
+
+    if (this.state.roommate && roommateARR.length < 4) {
+      console.log("Adding roommates!")
+      var roomObj = {
+        names: roommateARR,
+        Ep: Ep,
+        Gp: Gp,
+        Ip: Ip,
+        Rp: Rp,
+        date: dateMandY,
+        email: this.state.userData.email
+      }
+      console.log("RoomOBJ:", roomObj)
+      API.updateRoommates(roomObj)
+        .then(res => {
+          this.handleClose();
+          this.findUser();
+        })
+        .catch(err => console.log(err));
+    }
+  }
+
+  deleteRoommate = () => {
+    const roommate = document.getElementById("delete").value;
+    const index = this.state.eachRoommate.indexOf(roommate);
+    console.log("Roomate to Delete: ", roommate, "index: ", index);
+    var Ep = [...this.state.Ep]; Ep.splice(index, 1);
+    var Gp = [...this.state.Gp]; Gp.splice(index, 1);
+    var Ip = [...this.state.Ip]; Ip.splice(index, 1);
+    var Rp = [...this.state.Rp]; Rp.splice(index, 1);
+    var names = [...this.state.eachRoommate]; names.splice(index, 1);
+
+    var roomObj = {
+      names: names,
+      Ep: Ep,
+      Gp: Gp,
+      Ip: Ip,
+      Rp: Rp,
+      date: dateMandY,
+      email: this.state.userData.email
+    }
+    console.log("RoomOBJ with deleted rommate:", roomObj)
+    API.updateRoommates(roomObj)
+      .then(res => {
+        this.handleClose();
+        this.findUser();
+      })
+      .catch(err => console.log(err));
+  }
+
+  dateFuture = () => {
+    
+  }
+
+  datePast = () => {
+    
   }
 
   render() {
@@ -126,34 +301,30 @@ class Books extends Component {
     if (this.state.Auth) {
       console.log("You are authorized!");
     }
-    else{
+    else {
       return <Redirect to={"/"} />;
     }
 
-    const popover = (
-      <Popover id="modal-popover" title="popover">
-        very popover. such engagement
-      </Popover>
-    );
-
-    const tooltip = <Tooltip id="modal-tooltip">wow.</Tooltip>;
-
     return (
       <div className="mainBackground">
-        <Nav 
-        plusName="plus" 
-        plusClick={this.handleShow} 
-        minusName="minus" 
-        minusClick={this.handleShow} 
-        username={this.state.userData.username}
-        logOut={this.logOut}/>
+        <Nav
+          plusName="plus"
+          plusClick={this.handleShow}
+          minusName="minus"
+          minusClick={this.handleShow}
+          username={this.state.userData.username}
+          logOut={this.logOut} />
         <Container fluid>
           <Row>
             <Col size="md-12">
               <div className="dateBlock">
-                <button className="dateButton"><span className="glyphicon glyphicon-menu-left"></span></button>
-                <span className="date">February 2019</span>
-                <button className="dateButton"><span className="glyphicon glyphicon-menu-right"></span></button>
+                <button className="dateButton" id="past" onClick={this.datePast}>
+                  <span className="glyphicon glyphicon-menu-left"></span>
+                </button>
+                <span className="date">{this.state.date}</span>
+                <button className="dateButton" id="future" onClick={this.dateFuture}>
+                  <span className="glyphicon glyphicon-menu-right"></span>
+                </button>
               </div>
             </Col>
           </Row>
@@ -164,14 +335,27 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="e-Icon" name="electricity" onClick={this.handleShow}>
                     </button>
-                    <h2>Electricity - Bill: $<span>30</span></h2>
+                    <h2>Electricity - Bill: $<span>{this.state.userBills.electricity}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan owes you $<span>10 </span>(<span>33</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                      <div className="clear">
+                        <span className="u-Icon"></span>
+                        <h3>{elem} paid you $
+                          <span>{this.state.Ep[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Ep[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.electricity * 100)
+                              ? Math.round(this.state.Ep[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.electricity * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -182,14 +366,27 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="g-Icon" name="gas" onClick={this.handleShow}>
                     </button>
-                    <h2>Gas - Bill: $<span>30</span></h2>
+                    <h2>Gas - Bill: $<span>{this.state.userBills.gas}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                    {this.state.eachRoommate.map(elem =>
+                      <div className="clear">
+                        <span className="u-Icon"></span>
+                        <h3>{elem} paid you $
+                          <span>{this.state.Gp[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Gp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.gas * 100)
+                              ? Math.round(this.state.Gp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.gas * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -202,14 +399,27 @@ class Books extends Component {
                   <Col size="md-12">
                     <button className="i-Icon" name="internet" onClick={this.handleShow}>
                     </button>
-                    <h2>Internet - Bill: $<span>48</span></h2>
+                    <h2>Internet - Bill: $<span>{this.state.userBills.internet}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>24 </span>(<span>50</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                      <div className="clear">
+                        <span className="u-Icon"></span>
+                        <h3>{elem} paid you $
+                          <span>{this.state.Ip[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Ip[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.internet * 100)
+                              ? Math.round(this.state.Ip[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.internet * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -219,14 +429,27 @@ class Books extends Component {
                 <Row>
                   <Col size="md-12">
                     <button className="r-Icon" name="rent" onClick={this.handleShow}></button>
-                    <h2>Rent - Bill: $<span>30</span></h2>
+                    <h2>Rent - Bill: $<span>{this.state.userBills.rent}</span></h2>
                     <span className="m-Icon"></span>
                   </Col>
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    <span className="u-Icon"></span>
-                    <h3>Ryan paid you $<span>10 </span>(<span>33</span>%)</h3>
+                  {this.state.eachRoommate.map(elem =>
+                      <div className="clear">
+                        <span className="u-Icon"></span>
+                        <h3>{elem} paid you $
+                          <span>{this.state.Rp[this.state.eachRoommate.indexOf(elem)]} </span>
+                          (<span>
+                            {Math.round(this.state.Rp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.rent * 100)
+                              ? Math.round(this.state.Rp[this.state.eachRoommate.indexOf(elem)]
+                              / this.state.userBills.rent * 100)
+                              : 0}
+                          </span>%)
+                        </h3>
+                      </div>
+                    )}
                   </Col>
                 </Row>
               </Jumbotron>
@@ -252,9 +475,10 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                <FormControl componentClass="select" placeholder="select" id="gas">
+                  {this.state.eachRoommate.map(elem =>
+                    <option value={elem}>{elem}</option>
+                  )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -268,7 +492,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.update_BnR} value="gas">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -292,9 +516,10 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                <FormControl componentClass="select" placeholder="select" id="electricity">
+                  {this.state.eachRoommate.map(elem =>
+                    <option value={elem}>{elem}</option>
+                  )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -308,7 +533,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.update_BnR} value="electricity">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -332,9 +557,10 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                <FormControl componentClass="select" placeholder="select" id="internet">
+                  {this.state.eachRoommate.map(elem =>
+                    <option value={elem}>{elem}</option>
+                  )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -348,7 +574,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+              <Button onClick={this.update_BnR} value="internet">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -372,9 +598,10 @@ class Books extends Component {
               <br />
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                <FormControl componentClass="select" placeholder="select" id="rent">
+                  {this.state.eachRoommate.map(elem =>
+                    <option value={elem}>{elem}</option>
+                  )}
                 </FormControl>
                 <br />
                 <InputGroup>
@@ -388,7 +615,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Update</Button>
+            <Button onClick={this.update_BnR} value="rent">Update</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -403,7 +630,8 @@ class Books extends Component {
                 <InputGroup>
                   <FormControl
                     type="text"
-                    name={this.state.roommate}
+                    value={this.state.roommate}
+                    name="roommate"
                     placeholder="Enter Roommate"
                     onChange={this.handleInputChange}
                   />
@@ -411,7 +639,7 @@ class Books extends Component {
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Add</Button>
+              <Button onClick={this.addRoommate}>Add</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
@@ -422,16 +650,17 @@ class Books extends Component {
             </Modal.Header>
             <Modal.Body>
               <h4>Please select roommate to delete</h4>
-              <FormGroup controlId="formControlsSelect">
+              <FormGroup>
                 <ControlLabel>Select</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
-                  <option value="select">Ryan</option>
-                  <option value="other">Samuel</option>
+                <FormControl componentClass="select" placeholder="select" id="delete">
+                  {this.state.eachRoommate.map(elem =>
+                    <option value={elem}>{elem}</option>
+                  )}
                 </FormControl>
               </FormGroup>
             </Modal.Body>
             <Modal.Footer>
-              <Button onClick={this.handleClose}>Delete</Button>
+              <Button onClick={this.deleteRoommate}>Delete</Button>
               <Button onClick={this.handleClose}>Close</Button>
             </Modal.Footer>
           </Modal>
