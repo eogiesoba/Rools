@@ -299,23 +299,24 @@ class Main extends Component {
 
   dateFuture = () => {
     var mIndex = dateToday.getMonth() + 1;
+    var testDate; 
     if (mIndex > 11){
-      this.state.date = "January " + (dateToday.getFullYear() + 1);
-      console.log("New Today's Future JAN Date: ", dateToday);
+      var testDate = "January " + (dateToday.getFullYear() + 1);
     }
     else{
-      this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
-      console.log("New Today's Future Date: ", dateToday);
+      var testDate = mNames[mIndex] +" "+ dateToday.getFullYear();
     }
-    API.findBills(this.state.date)
+    API.findBills(testDate)
     .then(res => {
       console.log("Returned data for bad date REQ: ", res.data[0]);
       if(res.data[0]){
         if (mIndex > 11){
           dateToday = new Date((dateToday.getFullYear() + 1) , 0);
+          this.state.date = "January " + (dateToday.getFullYear() + 1);
         }
         else{
           dateToday = new Date(dateToday.getFullYear() , mIndex);
+          this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
         }
         this.setState({ userBills: res.data[0] });
         console.log("UserBills: ", this.state.userBills)
@@ -341,23 +342,24 @@ class Main extends Component {
 
   datePast = () => {
     var mIndex = dateToday.getMonth() - 1;
+    var testDate; 
     if(mIndex < 0){
-      this.state.date = "December " + (dateToday.getFullYear() - 1);
-      console.log("New Today's Past DEC Date: ", dateToday);
+      testDate = "December " + (dateToday.getFullYear() - 1);
     }
     else{
-      this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
-      console.log("New Today's Past Date: ", dateToday);
+      testDate = mNames[mIndex] +" "+ dateToday.getFullYear();
     }
-    API.findBills(this.state.date)
+    API.findBills(testDate)
     .then(res => {
       console.log("Returned data for bad date REQ: ", res.data[0]);
       if(res.data[0]){
         if (mIndex > 11){
           dateToday = new Date((dateToday.getFullYear() - 1) , 11);
+          this.state.date = "December " + (dateToday.getFullYear() - 1);
         }
         else{
           dateToday = new Date(dateToday.getFullYear() , mIndex);
+          this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
         }
         this.setState({ userBills: res.data[0] });
         console.log("UserBills: ", this.state.userBills)
