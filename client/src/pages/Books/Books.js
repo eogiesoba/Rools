@@ -9,7 +9,12 @@ import {
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
-const currentDate = "March 2018"; //Current Date
+const mNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+const dateToday = new Date();
+const dateMandY = mNames[dateToday.getMonth()] +" "+ dateToday.getFullYear();
+
 const status = {
   userData: {}
 };
@@ -22,7 +27,7 @@ class Books extends Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
-      date: "March 2018",
+      date: dateMandY,
       userData: "",
       userBills: "",
       userRoommates: "",
@@ -119,9 +124,12 @@ class Books extends Component {
     console.log("Finding User Bills and Roommates!");
     API.findBills(this.state.date)
       .then(res => {
-        this.setState({ userBills: res.data[0] });
-        console.log("UserBills: ", this.state.userBills)
-        API.findRoommates(this.state.date)
+        console.log("Returned data for bad date REQ: ", res.data[0]);
+        if(res.data[0]){
+          console.log("Set state to bills from DB and get Roommate data :)")
+          this.setState({ userBills: res.data[0] });
+          console.log("UserBills: ", this.state.userBills)
+          API.findRoommates(this.state.date)
           .then(res => {
             this.setState({
               userRoommates: res.data[0],
@@ -133,6 +141,35 @@ class Books extends Component {
             });
             console.log("UserRoommates: ", this.state.userRoommates)
           })
+        }
+        else{
+          console.log(" Run a Post new data to DB function and then recall findUser")
+          API.saveBills({
+            electricity: 0,
+            gas: 0,
+            internet: 0,
+            rent: 0,
+            date: dateMandY,
+            email: this.state.userData.email
+          })
+          .then(res => 
+            API.findRoommates(mNames[dateToday.getMonth() - 1] +" "+ dateToday.getFullYear())
+            .then(res => {
+              const blankArr = res.data[0].Ep.map(elem => 0);
+              API.saveRoommates({
+                names: res.data[0].names,
+                Ep: blankArr,
+                Gp: blankArr,
+                Ip: blankArr,
+                Rp: blankArr,
+                date: dateMandY,
+                email: this.state.userData.email
+              })
+            })
+          )
+          .then(res => this.findUser())
+          .catch(err => console.log(err));
+        }
       })
       .catch(err => console.log(err));
   }
@@ -176,13 +213,13 @@ class Books extends Component {
     else {
       API.updateBills({
         [bType]: billAmount,
-        date: "March 2018",
+        date: dateMandY,
         email: this.state.userData.email
       })
         .then(res =>
           API.updateRoommates({
             [stateBAN]: billArray,
-            date: "March 2018",
+            date: dateMandY,
             email: this.state.userData.email
           })
         )
@@ -210,7 +247,7 @@ class Books extends Component {
         Gp: Gp,
         Ip: Ip,
         Rp: Rp,
-        date: "March 2018",
+        date: dateMandY,
         email: this.state.userData.email
       }
       console.log("RoomOBJ:", roomObj)
@@ -239,7 +276,7 @@ class Books extends Component {
       Gp: Gp,
       Ip: Ip,
       Rp: Rp,
-      date: "March 2018",
+      date: dateMandY,
       email: this.state.userData.email
     }
     console.log("RoomOBJ with deleted rommate:", roomObj)
@@ -249,6 +286,14 @@ class Books extends Component {
         this.findUser();
       })
       .catch(err => console.log(err));
+  }
+
+  dateFuture = () => {
+    
+  }
+
+  datePast = () => {
+    
   }
 
   render() {
@@ -273,9 +318,13 @@ class Books extends Component {
           <Row>
             <Col size="md-12">
               <div className="dateBlock">
-                <button className="dateButton"><span className="glyphicon glyphicon-menu-left"></span></button>
+                <button className="dateButton" id="past" onClick={this.datePast}>
+                  <span className="glyphicon glyphicon-menu-left"></span>
+                </button>
                 <span className="date">{this.state.date}</span>
-                <button className="dateButton"><span className="glyphicon glyphicon-menu-right"></span></button>
+                <button className="dateButton" id="future" onClick={this.dateFuture}>
+                  <span className="glyphicon glyphicon-menu-right"></span>
+                </button>
               </div>
             </Col>
           </Row>

@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Abel');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Saira');
 
 html, body, #root{
     height: 100%;
     background-image: url("images/rools_Background.jpg");
     background-size: cover;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Saira', sans-serif;
 }
 .v-center{
     max-width:100%;
@@ -55,7 +56,7 @@ html, body, #root{
     bottom:0; 
 }
 .form-title{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Saira', sans-serif;
     font-weight: 600;
     text-align: center;
     color: #FFFFFF;
@@ -136,16 +137,23 @@ button[disabled], html input[disabled] {
     width: 100%;
     left: 0;
     text-align: center;
-    margin: 7px auto 0;
+    margin: auto;
     padding: 15px;
     color: white;
     font-size: 16px;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Saira', sans-serif;
 }
+a{
+    color: #ffffff;
+    text-decoration: none;
+}
+
+a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
+
 .navbar-text {
     color: #ffffff;
     font-size: 29px;
-    margin: 7px auto 0px;
+    margin: 3px auto 0px;
 }
 .navbar{
     background: rgb(1, 2, 26);
@@ -153,11 +161,11 @@ button[disabled], html input[disabled] {
 }
 .nav-icon-1{
     color: rgb(16, 30, 230);
-    margin: 20px 10px 0px;
+    margin: 14px 10px 0px;
 }
 .nav-icon-2{
     color: rgb(182, 3, 3);
-    margin: 20px 10px 0px;
+    margin: 14px 10px 0px;
 }
 .nav-icon-3{
     color: rgb(243, 228, 24);
@@ -166,12 +174,13 @@ button[disabled], html input[disabled] {
     color: white;
     font-size: 20x;
     background: navy;
+    margin-top: 7px;
 }
 .navbar-right{
     margin: 0px;
 }
 .sub-title{
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Saira', sans-serif;
     text-align: center;
     color: white;
 }
@@ -206,7 +215,7 @@ button[disabled], html input[disabled] {
     font-size: 12px;
 }
 .jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Saira', sans-serif;
     font-weight: 700;
     color: rgb(255, 255, 255);
     margin-top: 16px;

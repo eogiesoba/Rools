@@ -21,11 +21,11 @@ const Nav = props =>
     
         </li>
         <li>
-          <a href="">
+          
           <button onClick={props.logOut} className="btn nav-icon-4">
-          Log Out
+          <a href="">Log Out</a>
           </button>
-          </a>
+
         </li>
       </ul>
     </div>
