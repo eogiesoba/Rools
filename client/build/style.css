@@ -160,12 +160,20 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
     margin:0px;
 }
 .nav-icon-1{
-    color: rgb(16, 30, 230);
-    margin: 14px 10px 0px;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: 6px 0px 0px;
+    border: solid 0px white;
+    background: #0a6486;
+    border-radius: 3px;
 }
 .nav-icon-2{
-    color: rgb(182, 3, 3);
-    margin: 14px 10px 0px;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    margin: 6px 15px 0px;
+    border: solid 0px white;
+    background: #960a24;
+    border-radius: 3px;
 }
 .nav-icon-3{
     color: rgb(243, 228, 24);
@@ -279,3 +287,9 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
     margin-bottom: 10px;
 }
 /*Main display CSS above--------------------------------------------------*/
+
+/*No Match Page CSS below--------------------------------------------------*/
+h1{
+    color: white;
+}
+/*No Match Page CSS above--------------------------------------------------*/

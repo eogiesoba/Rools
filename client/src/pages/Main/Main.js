@@ -12,14 +12,16 @@ import {
 const mNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
-const dateToday = new Date();
+let dateToday = new Date();
 const dateMandY = mNames[dateToday.getMonth()] +" "+ dateToday.getFullYear();
+const previousIndex = dateToday.getMonth() - 1;
+var previousDate;
 
 const status = {
   userData: {}
 };
 
-class Books extends Component {
+class Main extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -123,55 +125,62 @@ class Books extends Component {
   findUserData = () => {
     console.log("Finding User Bills and Roommates!");
     API.findBills(this.state.date)
-      .then(res => {
-        console.log("Returned data for bad date REQ: ", res.data[0]);
-        if(res.data[0]){
-          console.log("Set state to bills from DB and get Roommate data :)")
-          this.setState({ userBills: res.data[0] });
-          console.log("UserBills: ", this.state.userBills)
-          API.findRoommates(this.state.date)
+    .then(res => {
+      console.log("Returned data for bad date REQ: ", res.data[0]);
+      if(res.data[0]){
+        console.log("Set state to bills from DB and get Roommate data :)")
+        this.setState({ userBills: res.data[0] });
+        console.log("UserBills: ", this.state.userBills)
+        API.findRoommates(this.state.date)
+        .then(res => {
+          this.setState({
+            userRoommates: res.data[0],
+            eachRoommate: res.data[0].names,
+            Ep: res.data[0].Ep,
+            Gp: res.data[0].Gp,
+            Ip: res.data[0].Ip,
+            Rp: res.data[0].Rp
+          });
+          console.log("UserRoommates: ", this.state.userRoommates)
+        })
+      }
+      else{
+        console.log(" Run a Post new data to DB function and then recall findUser")
+        API.saveBills({
+          electricity: 0,
+          gas: 0,
+          internet: 0,
+          rent: 0,
+          date: dateMandY,
+          email: this.state.userData.email
+        })
+        .then(res => {
+          const previousIndex = dateToday.getMonth() - 1;
+          if (previousIndex < 0 ){
+            previousDate = mNames[11] +" "+ (dateToday.getFullYear()-1);
+          }
+          else{
+            previousDate = mNames[previousIndex] +" "+ dateToday.getFullYear();
+          }
+          API.findRoommates(previousDate)
           .then(res => {
-            this.setState({
-              userRoommates: res.data[0],
-              eachRoommate: res.data[0].names,
-              Ep: res.data[0].Ep,
-              Gp: res.data[0].Gp,
-              Ip: res.data[0].Ip,
-              Rp: res.data[0].Rp
-            });
-            console.log("UserRoommates: ", this.state.userRoommates)
-          })
-        }
-        else{
-          console.log(" Run a Post new data to DB function and then recall findUser")
-          API.saveBills({
-            electricity: 0,
-            gas: 0,
-            internet: 0,
-            rent: 0,
-            date: dateMandY,
-            email: this.state.userData.email
-          })
-          .then(res => 
-            API.findRoommates(mNames[dateToday.getMonth() - 1] +" "+ dateToday.getFullYear())
-            .then(res => {
-              const blankArr = res.data[0].Ep.map(elem => 0);
-              API.saveRoommates({
-                names: res.data[0].names,
-                Ep: blankArr,
-                Gp: blankArr,
-                Ip: blankArr,
-                Rp: blankArr,
-                date: dateMandY,
-                email: this.state.userData.email
-              })
+            const blankArr = res.data[0].Ep.map(elem => 0);
+            API.saveRoommates({
+              names: res.data[0].names,
+              Ep: blankArr,
+              Gp: blankArr,
+              Ip: blankArr,
+              Rp: blankArr,
+              date: dateMandY,
+              email: this.state.userData.email
             })
-          )
-          .then(res => this.findUser())
-          .catch(err => console.log(err));
-        }
-      })
-      .catch(err => console.log(err));
+          })
+         })
+        .then(res => this.findUser())
+        .catch(err => console.log(err));
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   logOut = () => {
@@ -213,13 +222,13 @@ class Books extends Component {
     else {
       API.updateBills({
         [bType]: billAmount,
-        date: dateMandY,
+        date: this.state.date,
         email: this.state.userData.email
       })
         .then(res =>
           API.updateRoommates({
             [stateBAN]: billArray,
-            date: dateMandY,
+            date: this.state.date,
             email: this.state.userData.email
           })
         )
@@ -247,7 +256,7 @@ class Books extends Component {
         Gp: Gp,
         Ip: Ip,
         Rp: Rp,
-        date: dateMandY,
+        date: this.state.date,
         email: this.state.userData.email
       }
       console.log("RoomOBJ:", roomObj)
@@ -276,7 +285,7 @@ class Books extends Component {
       Gp: Gp,
       Ip: Ip,
       Rp: Rp,
-      date: dateMandY,
+      date: this.state.date,
       email: this.state.userData.email
     }
     console.log("RoomOBJ with deleted rommate:", roomObj)
@@ -289,11 +298,87 @@ class Books extends Component {
   }
 
   dateFuture = () => {
-    
+    var mIndex = dateToday.getMonth() + 1;
+    if (mIndex > 11){
+      this.state.date = "January " + (dateToday.getFullYear() + 1);
+      console.log("New Today's Future JAN Date: ", dateToday);
+    }
+    else{
+      this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
+      console.log("New Today's Future Date: ", dateToday);
+    }
+    API.findBills(this.state.date)
+    .then(res => {
+      console.log("Returned data for bad date REQ: ", res.data[0]);
+      if(res.data[0]){
+        if (mIndex > 11){
+          dateToday = new Date((dateToday.getFullYear() + 1) , 0);
+        }
+        else{
+          dateToday = new Date(dateToday.getFullYear() , mIndex);
+        }
+        this.setState({ userBills: res.data[0] });
+        console.log("UserBills: ", this.state.userBills)
+        API.findRoommates(this.state.date)
+        .then(res => {
+          this.setState({
+            userRoommates: res.data[0],
+            eachRoommate: res.data[0].names,
+            Ep: res.data[0].Ep,
+            Gp: res.data[0].Gp,
+            Ip: res.data[0].Ip,
+            Rp: res.data[0].Rp
+          });
+          console.log("UserRoommates: ", this.state.userRoommates)
+        })
+      }
+      else{
+        console.log("Date does not exist yet in the Database!")
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   datePast = () => {
-    
+    var mIndex = dateToday.getMonth() - 1;
+    if(mIndex < 0){
+      this.state.date = "December " + (dateToday.getFullYear() - 1);
+      console.log("New Today's Past DEC Date: ", dateToday);
+    }
+    else{
+      this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
+      console.log("New Today's Past Date: ", dateToday);
+    }
+    API.findBills(this.state.date)
+    .then(res => {
+      console.log("Returned data for bad date REQ: ", res.data[0]);
+      if(res.data[0]){
+        if (mIndex > 11){
+          dateToday = new Date((dateToday.getFullYear() - 1) , 11);
+        }
+        else{
+          dateToday = new Date(dateToday.getFullYear() , mIndex);
+        }
+        this.setState({ userBills: res.data[0] });
+        console.log("UserBills: ", this.state.userBills)
+        API.findRoommates(this.state.date)
+        .then(res => {
+          this.setState({
+            userRoommates: res.data[0],
+            eachRoommate: res.data[0].names,
+            Ep: res.data[0].Ep,
+            Gp: res.data[0].Gp,
+            Ip: res.data[0].Ip,
+            Rp: res.data[0].Rp
+          });
+          console.log("UserRoommates: ", this.state.userRoommates)
+        })
+      }
+      else{
+        console.log("Date does not exist yet in the Database!")
+      }
+    })
+    .catch(err => console.log(err));
   }
 
   render() {
@@ -673,4 +758,4 @@ class Books extends Component {
   }
 }
 
-export default Books;
+export default Main;
