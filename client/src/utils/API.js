@@ -1,23 +1,6 @@
 import axios from "axios";
 
 export default {
-  // Gets all books
-  getBooks: function() {
-    return axios.get("/api/books");
-  },
-  // Gets the book with the given id
-  getBook: function(id) {
-    return axios.get("/api/books/" + id);
-  },
-  // Deletes the book with the given id
-  deleteBook: function(id) {
-    return axios.delete("/api/books/" + id);
-  },
-  // Saves a user data to the database
-  // saveUserData: function(id) {
-  //   return axios.post("/api/users/" + id);
-  // },
-
   //Login and Logout the user's session
   loginUser: function(user) {
     return axios.post("/api/login", user);
@@ -25,7 +8,6 @@ export default {
   logOutUser: function(user) {
     return axios.get("/api/logout");
   },
-
   //Saves default user bills and rommates below
   saveUser: function(user) {
     return axios.post("/api/users", user);

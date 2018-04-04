@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./pages/Main";
-
 import NoMatch from "./pages/NoMatch";
 import SignUp from "./pages/SignUp";
 import API from "./utils/API";
@@ -29,13 +28,6 @@ const status = {
   }
 };
 
-const PrivateRoute2 = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => status.isAuth ? <Component {...props} /> : ( <Redirect to='/' /> )} />
-)
-const PrivateRoute1 = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={(props) => status.isAuth ? <Redirect to='/main' /> : ( <Component {...props} /> )} />
-)
-
 class SignIn extends Component {
   state = {
       email: "",
@@ -48,7 +40,6 @@ class SignIn extends Component {
       this.setState({
           [name]: value
       });
-      console.log(this.state);
   };
 
   handleFormSubmit = event => {
@@ -60,27 +51,21 @@ class SignIn extends Component {
       .then(res => {
         status.isAuth = true;
         status.userData = res.data;
-        console.log("Auth State Updated: ", status.isAuth);
       })
       .catch(err => console.log(err))
       .then( res => {
       this.updateRender()
-      console.log("Redirecting now");
-      console.log("Original Auth State: ", status.isAuth)}
-    );
+      });
   };
   updateRender = () => {
-    console.log("updatedRender has been called!")
     if(status.isAuth){
       this.setState({ redirectToReferrer: true });
     }
-    console.log("referrer" , this.state.redirectToReferrer)
   }
   render() {
 
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
     const { redirectToReferrer } = this.state;
-    console.log("Inside Render Function Auth: ",status.isAuth )
+    
     if (redirectToReferrer) {
       return <Redirect to={"/main"} />;
     }
