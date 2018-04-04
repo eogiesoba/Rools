@@ -2,15 +2,7 @@ const db = require("../models");
 
 // Defining methods for the roommatesController
 module.exports = {
-  // find: function(req, res) {
-  //   db.Roommate
-  //     .find({ email: req.body.email, date: req.body.date })//Needs to be chaged to params
-  //     .sort({ date: -1 })
-  //     .then(dbModel => res.json(dbModel))
-  //     .catch(err => res.status(422).json(err));
-  // },
   findById: function(req, res) {
-    console.log("Req Parameters: ", req.params)
     db.Roommate
     .find({ email: req.user.email, date: req.params.id })
     .then(dbModel => res.json(dbModel))

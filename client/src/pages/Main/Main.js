@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import Jumbotron from "../../components/Jumbotron";
 import API from "../../utils/API";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import Nav from "../../components/Nav";
 import {
-  Button, Modal, OverlayTrigger,
+  Button, Modal,
   ControlLabel, FormGroup, InputGroup, FormControl
 } from 'react-bootstrap';
 
@@ -14,7 +14,6 @@ const mNames = ["January", "February", "March", "April", "May", "June",
 ];
 let dateToday = new Date();
 const dateMandY = mNames[dateToday.getMonth()] +" "+ dateToday.getFullYear();
-const previousIndex = dateToday.getMonth() - 1;
 var previousDate;
 
 const status = {
@@ -75,13 +74,12 @@ class Main extends Component {
   handleBillChange = event => {
     const { name, value } = event.target;
     if (isNaN(value)) {
-      console.log("Not a number, please enter a number")
+      console.log("Not a number, please enter a number");
     }
     else {
       this.setState({
         [name]: value
       });
-      console.log(name, "Money: ", this.state[name]);
     }
   };
 
@@ -90,7 +88,6 @@ class Main extends Component {
     this.setState({
       [name]: value
     });
-    console.log(name, ": ", this.state[name]);
   };
 
   componentDidMount() {
@@ -102,7 +99,6 @@ class Main extends Component {
       .then(res => {
         status.userData = res.data;
         if (status.userData.username) {
-          console.log("email :", status.userData.email)
           this.setState({
             userData: {
               username: status.userData.username,
@@ -123,14 +119,10 @@ class Main extends Component {
   }
 
   findUserData = () => {
-    console.log("Finding User Bills and Roommates!");
     API.findBills(this.state.date)
     .then(res => {
-      console.log("Returned data for bad date REQ: ", res.data[0]);
       if(res.data[0]){
-        console.log("Set state to bills from DB and get Roommate data :)")
         this.setState({ userBills: res.data[0] });
-        console.log("UserBills: ", this.state.userBills)
         API.findRoommates(this.state.date)
         .then(res => {
           this.setState({
@@ -141,11 +133,9 @@ class Main extends Component {
             Ip: res.data[0].Ip,
             Rp: res.data[0].Rp
           });
-          console.log("UserRoommates: ", this.state.userRoommates)
         })
       }
       else{
-        console.log(" Run a Post new data to DB function and then recall findUser")
         API.saveBills({
           electricity: 0,
           gas: 0,
@@ -184,7 +174,6 @@ class Main extends Component {
   }
 
   logOut = () => {
-    console.log("Logging out now");
     API.logOutUser({})
       .then(res => { })
       .catch(err => console.log(err))
@@ -192,29 +181,23 @@ class Main extends Component {
 
   update_BnR = event => {
     const bType = event.target.value;
-    console.log("Type of Bill: ", bType)
 
     const stateBillName = bType[0] + "Bill";
+
     const billAmount = Math.round(this.state[stateBillName]);
-    console.log("Bill Amount $: ", billAmount)
 
     const roommate = document.getElementById(bType).value;
-    console.log("Roommate Name: ", roommate)
 
     const paidAmount = Math.round(this.state.paid);
-    console.log("Paid Amount $: ", paidAmount)
 
     const index = this.state.eachRoommate.indexOf(roommate);
-    console.log("Roommate Index: ", index)
 
     const stateBAN = bType[0].toUpperCase() + "p";
     let billArray = [...this.state[stateBAN]];
     billArray[index] = paidAmount;
-    console.log("Bill Array: " + stateBAN, billArray)
 
     const sumArr = arr => arr.reduce((a, b) => a + b, 0);
     const billSum = sumArr(billArray);
-    console.log("Sum of Roommate money: ", billSum);
 
     if (billSum > billAmount) {
       console.log("Too much money!");
@@ -249,7 +232,6 @@ class Main extends Component {
     var Rp = [...this.state.Rp]; Rp.push(0);
 
     if (this.state.roommate && roommateARR.length < 4) {
-      console.log("Adding roommates!")
       var roomObj = {
         names: roommateARR,
         Ep: Ep,
@@ -259,7 +241,6 @@ class Main extends Component {
         date: this.state.date,
         email: this.state.userData.email
       }
-      console.log("RoomOBJ:", roomObj)
       API.updateRoommates(roomObj)
         .then(res => {
           this.handleClose();
@@ -272,7 +253,6 @@ class Main extends Component {
   deleteRoommate = () => {
     const roommate = document.getElementById("delete").value;
     const index = this.state.eachRoommate.indexOf(roommate);
-    console.log("Roomate to Delete: ", roommate, "index: ", index);
     var Ep = [...this.state.Ep]; Ep.splice(index, 1);
     var Gp = [...this.state.Gp]; Gp.splice(index, 1);
     var Ip = [...this.state.Ip]; Ip.splice(index, 1);
@@ -288,7 +268,6 @@ class Main extends Component {
       date: this.state.date,
       email: this.state.userData.email
     }
-    console.log("RoomOBJ with deleted rommate:", roomObj)
     API.updateRoommates(roomObj)
       .then(res => {
         this.handleClose();
@@ -301,25 +280,23 @@ class Main extends Component {
     var mIndex = dateToday.getMonth() + 1;
     var testDate; 
     if (mIndex > 11){
-      var testDate = "January " + (dateToday.getFullYear() + 1);
+      testDate = "January " + (dateToday.getFullYear() + 1);
     }
     else{
-      var testDate = mNames[mIndex] +" "+ dateToday.getFullYear();
+      testDate = mNames[mIndex] +" "+ dateToday.getFullYear();
     }
     API.findBills(testDate)
     .then(res => {
-      console.log("Returned data for bad date REQ: ", res.data[0]);
       if(res.data[0]){
         if (mIndex > 11){
           dateToday = new Date((dateToday.getFullYear() + 1) , 0);
-          this.state.date = "January " + (dateToday.getFullYear() + 1);
+          this.setState({ date: "January " + (dateToday.getFullYear() + 1) });
         }
         else{
           dateToday = new Date(dateToday.getFullYear() , mIndex);
-          this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
+          this.setState({ date: mNames[mIndex] +" "+ dateToday.getFullYear() });
         }
         this.setState({ userBills: res.data[0] });
-        console.log("UserBills: ", this.state.userBills)
         API.findRoommates(this.state.date)
         .then(res => {
           this.setState({
@@ -330,7 +307,6 @@ class Main extends Component {
             Ip: res.data[0].Ip,
             Rp: res.data[0].Rp
           });
-          console.log("UserRoommates: ", this.state.userRoommates)
         })
       }
       else{
@@ -351,18 +327,16 @@ class Main extends Component {
     }
     API.findBills(testDate)
     .then(res => {
-      console.log("Returned data for bad date REQ: ", res.data[0]);
       if(res.data[0]){
         if (mIndex > 11){
           dateToday = new Date((dateToday.getFullYear() - 1) , 11);
-          this.state.date = "December " + (dateToday.getFullYear() - 1);
+          this.setState({ date: "December " + (dateToday.getFullYear() - 1) });
         }
         else{
           dateToday = new Date(dateToday.getFullYear() , mIndex);
-          this.state.date = mNames[mIndex] +" "+ dateToday.getFullYear();
+          this.setState({ date: mNames[mIndex] +" "+ dateToday.getFullYear() });
         }
         this.setState({ userBills: res.data[0] });
-        console.log("UserBills: ", this.state.userBills)
         API.findRoommates(this.state.date)
         .then(res => {
           this.setState({
@@ -373,7 +347,6 @@ class Main extends Component {
             Ip: res.data[0].Ip,
             Rp: res.data[0].Rp
           });
-          console.log("UserRoommates: ", this.state.userRoommates)
         })
       }
       else{

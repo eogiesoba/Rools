@@ -22,7 +22,7 @@ const UserSchema = new Schema({
 UserSchema.pre('save', function(next) {
   var user = this;
 
-  // only hash the password if it has been modified (or is new)
+  // Hash the password only if it has been modified (or is new)
   if (!user.isModified('password')) return next();
 
   // generate a salt
