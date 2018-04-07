@@ -61,6 +61,9 @@ class SignIn extends Component {
     if(status.isAuth){
       this.setState({ redirectToReferrer: true });
     }
+    // else{
+    //     document.getElementById("warning_mssg").innerHTML = "Error: User does not exist, please type in existing user";
+    // }
   }
   render() {
 
@@ -91,6 +94,7 @@ class SignIn extends Component {
                                   name="password"
                                   placeholder="Password"
                               />
+                              {/* <p id="warning_mssg"></p> */}
                               <button
                                   type="button"
                                   name="login"
