@@ -1,2 +1,25 @@
-# Rools
-Bill management app for roomates. This app will keep track of 4 main bills that are most commonly shared amoung roommates: Electricity, Gas, Internet, & Rent.
+# ROOLS
+
+\
+<https://rools-app.herokuapp.com/> \
+Version 1.0 \
+Deployment Date: April 6, 2018  \
+Contributors: Efosa Ogiesoba
+
+
+\
+#Purpose
+
+ROOLS is short for roomate-bills. This is a bill management app for roomates built with ReactJS; App will keep track of 4 main bills that are most commonly shared among roommates: Electricity, Gas, Internet, & Rent. A maximum of 3 roomamtes can be added for each user. Once roommates, and total bill costs are added, contribution for each roommate can be included. A total percentage contribution for each roommate towards the total bill is also automatically calculated and displayed. 
+
+#Screenshot - 1 - SignIn Page
+
+![SignIn Page](client/public/images/rools-signIn.png)
+
+#Screenshot - 2 - SignUp Page
+
+![SignUp Page](client/public/images/rools-signUp.png)
+
+#Screenshot - 3 - Main App Page
+
+![Main App Page](client/public/images/rools-mainPage.png)
