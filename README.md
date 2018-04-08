@@ -10,7 +10,7 @@ Contributors: Efosa Ogiesoba
 \
 #Purpose
 
-ROOLS is short for roomate-bills. This is a bill management app for roomates built with ReactJS; App will keep track of 4 main bills that are most commonly shared among roommates: Electricity, Gas, Internet, & Rent. A maximum of 3 roomamtes can be added for each user. Once roommates, and total bill costs are added, contribution for each roommate can be included. A total percentage contribution for each roommate towards the total bill is also automatically calculated and displayed. 
+ROOLS is short for roomate-bills. This is a bill management app for roommates built with ReactJS; App will keep track of 4 main bills that are most commonly shared among roommates: Electricity, Gas, Internet, & Rent. A maximum of 3 roommates can be added for each user. Once roommates, and total bill costs are added, contribution for each roommate can be included. A total percentage contribution for each roommate towards the total bill is also automatically calculated and displayed. 
 
 #Screenshot - 1 - SignIn Page
 
