@@ -175,7 +175,11 @@ class Main extends Component {
 
   logOut = () => {
     API.logOutUser({})
-      .then(res => { })
+      .then(res => {
+        this.setState({
+          Auth: false
+        });
+       })
       .catch(err => console.log(err))
   }
 
@@ -359,7 +363,7 @@ class Main extends Component {
   render() {
 
     if (this.state.Auth) {
-      console.log("You are authorized!");
+      // console.log("You are authorized!");
     }
     else {
       return <Redirect to={"/"} />;
@@ -401,8 +405,8 @@ class Main extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                  {this.state.eachRoommate.map(elem =>
-                      <div className="clear">
+                  {this.state.eachRoommate.map((elem,i) =>
+                      <div className="clear" key={i}>
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
                           <span>{this.state.Ep[this.state.eachRoommate.indexOf(elem)]} </span>
@@ -432,8 +436,8 @@ class Main extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                    {this.state.eachRoommate.map(elem =>
-                      <div className="clear">
+                    {this.state.eachRoommate.map((elem,i) =>
+                      <div className="clear" key={i}>
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
                           <span>{this.state.Gp[this.state.eachRoommate.indexOf(elem)]} </span>
@@ -465,8 +469,8 @@ class Main extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                  {this.state.eachRoommate.map(elem =>
-                      <div className="clear">
+                  {this.state.eachRoommate.map((elem,i) =>
+                      <div className="clear" key={i}>
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
                           <span>{this.state.Ip[this.state.eachRoommate.indexOf(elem)]} </span>
@@ -495,8 +499,8 @@ class Main extends Component {
                 </Row>
                 <Row>
                   <Col size="md-12">
-                  {this.state.eachRoommate.map(elem =>
-                      <div className="clear">
+                  {this.state.eachRoommate.map((elem,i) =>
+                      <div className="clear" key={i}>
                         <span className="u-Icon"></span>
                         <h3>{elem} paid you $
                           <span>{this.state.Rp[this.state.eachRoommate.indexOf(elem)]} </span>
@@ -536,8 +540,8 @@ class Main extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select" id="gas">
-                  {this.state.eachRoommate.map(elem =>
-                    <option value={elem}>{elem}</option>
+                  {this.state.eachRoommate.map((elem,i) =>
+                    <option value={elem} key={i}>{elem}</option>
                   )}
                 </FormControl>
                 <br />
@@ -577,8 +581,8 @@ class Main extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select" id="electricity">
-                  {this.state.eachRoommate.map(elem =>
-                    <option value={elem}>{elem}</option>
+                  {this.state.eachRoommate.map((elem,i) =>
+                    <option value={elem} key={i}>{elem}</option>
                   )}
                 </FormControl>
                 <br />
@@ -618,8 +622,8 @@ class Main extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select" id="internet">
-                  {this.state.eachRoommate.map(elem =>
-                    <option value={elem}>{elem}</option>
+                  {this.state.eachRoommate.map((elem,i) =>
+                    <option value={elem} key={i}>{elem}</option>
                   )}
                 </FormControl>
                 <br />
@@ -659,8 +663,8 @@ class Main extends Component {
               <FormGroup>
                 <h4>Roommates' Contribution:</h4>
                 <FormControl componentClass="select" placeholder="select" id="rent">
-                  {this.state.eachRoommate.map(elem =>
-                    <option value={elem}>{elem}</option>
+                  {this.state.eachRoommate.map((elem,i) =>
+                    <option value={elem} key={i}>{elem}</option>
                   )}
                 </FormControl>
                 <br />
@@ -713,8 +717,8 @@ class Main extends Component {
               <FormGroup>
                 <ControlLabel>Select</ControlLabel>
                 <FormControl componentClass="select" placeholder="select" id="delete">
-                  {this.state.eachRoommate.map(elem =>
-                    <option value={elem}>{elem}</option>
+                  {this.state.eachRoommate.map((elem,i) =>
+                    <option value={elem} key={i}>{elem}</option>
                   )}
                 </FormControl>
               </FormGroup>

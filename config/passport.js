@@ -18,14 +18,14 @@ passport.use(new LocalStrategy(
       // If there's no user with the given username
       if (!dbUser) {
         console.log("Bad username")
-        return done(null, false, {
+        return done(null, {
           message: "Incorrect username."
         });
       }
       // If there is a user with the given username, but the password the user gives us is incorrect
       else if (!dbUser.comparePassword(password)) {
         console.log("Bad password")
-        return done(null, false, {
+        return done(null, {
           message: "Incorrect password."
         });
       }
