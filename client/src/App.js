@@ -12,7 +12,7 @@ const App = () =>
       <Switch>
         <Route exact path="/" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
-        <Route path='/main' component={Main} />
+        <PrivateRoute path='/main' component={Main} />
         <Route component={NoMatch} />
       </Switch>
   </Router>;
@@ -28,6 +28,14 @@ const status = {
   }
 };
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={(props) => (
+      status.isAuth === true
+        ? <Component {...props} />
+        : <Redirect to='/' />
+    )} />
+)
+
 class SignIn extends Component {
   state = {
       email: "",
@@ -42,6 +50,25 @@ class SignIn extends Component {
       });
   };
 
+  componentDidMount() {
+    this.findUser();
+  }
+
+  findUser = () => {
+    API.findUser({})
+      .then(res => {
+        status.userData = res.data;
+        if (status.userData.username) {
+            status.isAuth = true;
+            this.props.history.push("/main")
+        }
+        else {
+            //Stay on the login page
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
   handleFormSubmit = event => {
       event.preventDefault();
       if(this.state.email !== "" && this.state.password !== ""){
@@ -53,26 +80,19 @@ class SignIn extends Component {
           if(res.data.email){
               status.isAuth = true;
               status.userData = res.data;
+              this.setState({ redirectToReferrer: true });
           }
           else{
               document.getElementById("eLogin").innerHTML = res.data.message;
           }
         })
         .catch(err => console.log(err))
-        .then( res => {
-          this.updateRender()
-        });
       }
       else{
         document.getElementById("eLogin").innerHTML = "Please enter both username & password";
       }
   };
 
-  updateRender = () => {
-    if(status.isAuth){
-      this.setState({ redirectToReferrer: true });
-    }
-  }
   render() {
 
     const { redirectToReferrer } = this.state;
