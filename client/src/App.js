@@ -44,26 +44,34 @@ class SignIn extends Component {
 
   handleFormSubmit = event => {
       event.preventDefault();
-      API.loginUser({
-          email: this.state.email,
-          password: this.state.password
-      })
-      .then(res => {
-        status.isAuth = true;
-        status.userData = res.data;
-      })
-      .catch(err => console.log(err))
-      .then( res => {
-      this.updateRender()
-      });
+      if(this.state.email !== "" && this.state.password !== ""){
+        API.loginUser({
+            email: this.state.email,
+            password: this.state.password
+        })
+        .then(res => {
+          if(res.data.email){
+              status.isAuth = true;
+              status.userData = res.data;
+          }
+          else{
+              document.getElementById("eLogin").innerHTML = res.data.message;
+          }
+        })
+        .catch(err => console.log(err))
+        .then( res => {
+          this.updateRender()
+        });
+      }
+      else{
+        document.getElementById("eLogin").innerHTML = "Please enter both username & password";
+      }
   };
+
   updateRender = () => {
     if(status.isAuth){
       this.setState({ redirectToReferrer: true });
     }
-    // else{
-    //     document.getElementById("warning_mssg").innerHTML = "Error: User does not exist, please type in existing user";
-    // }
   }
   render() {
 
@@ -79,7 +87,8 @@ class SignIn extends Component {
                       <div className="innerBox">
                           <h1 className="form-title">ROOLS</h1>
                           <h5 className="sub-title">Manage all your bills in 1 place</h5>
-                          <form className="login">
+                          <p className="login-error" id="eLogin"></p>
+                          <form className="login" onSubmit={this.handleFormSubmit}>
                               <input
                                   type="text"
                                   value={this.state.email}
@@ -96,10 +105,9 @@ class SignIn extends Component {
                               />
                               {/* <p id="warning_mssg"></p> */}
                               <button
-                                  type="button"
+                                  type="submit"
                                   name="login"
-                                  className="btn-login"
-                                  onClick={this.handleFormSubmit}>
+                                  className="btn-login">
                                   Log In
                               </button>
                               <Link to={"/signup"}>

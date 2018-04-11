@@ -6,7 +6,8 @@ const passport = require("../../config/passport");
 // Matches with "/api/login"
 router.route("/")
     .post(passport.authenticate('local'), function (req, res) {
-        res.json(req.user);
+            console.log("Response: ", req.user);
+            res.json(req.user);
     })
     .get(function (req, res) {
         if (!req.user) {

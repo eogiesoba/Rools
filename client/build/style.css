@@ -30,7 +30,7 @@ html, body, #root{
     width:35%;
     height: 56%;
 }
-@media (max-width: 992px) {
+@media (max-width: 992px) { /**Tablet-----*/
     .tall{
         width: 88%;
         height: 55%;
@@ -39,7 +39,18 @@ html, body, #root{
         width: 88%;
         height: 60%;
     }
-    @media (max-width: 768px) {
+    .btn-Group{
+        width: 100%;
+        text-align: center;
+    }
+    .navbar-text {
+        width: 100%;
+        color: #ffffff;
+        font-size: 29px;
+        margin: 3px auto 0px;
+        text-align: center;
+    }
+    @media (max-width: 768px) {/**Smart Phone-----*/
         .tall{
             width: 88%;
             height: 55%;
@@ -47,6 +58,13 @@ html, body, #root{
         .tall2{
             width: 88%;
             height: 62%;
+        }
+        .jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
+            font-size: 18px;
+        }
+        .btn-Group{
+            width: 100%;
+            text-align: center;
         }
     }
 }
@@ -133,19 +151,14 @@ button[disabled], html input[disabled] {
 }
 /**Navbar Section below---------------------------------------------------*/
 .welcome{
-    position: absolute;
+    /* position: absolute; */
     width: 100%;
-    left: 0;
     text-align: center;
     margin: auto;
     padding: 15px;
     color: white;
     font-size: 16px;
     font-family: 'Saira', sans-serif;
-}
-a{
-    color: #ffffff;
-    text-decoration: none;
 }
 
 a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
@@ -154,6 +167,7 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
     color: #ffffff;
     font-size: 29px;
     margin: 3px auto 0px;
+    text-align: center;
 }
 .navbar{
     background: rgb(1, 2, 26);
@@ -180,17 +194,29 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
 }
 .nav-icon-4{
     color: white;
-    font-size: 20x;
     background: navy;
-    margin-top: 7px;
+    margin-bottom: 7px;
+    text-decoration: none;
+}
+.nav-icon-4:hover{
+    color: white;
 }
 .navbar-right{
     margin: 0px;
+}
+.btn-Group{
+    text-align: center;
+    float: right;
 }
 .sub-title{
     font-family: 'Saira', sans-serif;
     text-align: center;
     color: white;
+}
+.login-error{
+    font-family: 'Saira', sans-serif;
+    text-align: center;
+    color: rgb(255, 251, 16);
 }
 /**Navbar Section above---------------------------------------------------*/
 
