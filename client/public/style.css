@@ -50,22 +50,33 @@ html, body, #root{
         margin: 3px auto 0px;
         text-align: center;
     }
-    @media (max-width: 768px) {/**Smart Phone-----*/
-        .tall{
-            width: 88%;
-            height: 55%;
-        }
-        .tall2{
-            width: 88%;
-            height: 62%;
-        }
-        .jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
-            font-size: 18px;
-        }
-        .btn-Group{
-            width: 100%;
-            text-align: center;
-        }
+}
+@media (max-width: 768px) {/**Smart Phone-----*/
+    .tall{
+        width: 88%;
+        height: 55%;
+    }
+    .tall2{
+        width: 88%;
+        height: 62%;
+    }
+    .jumbotron h1, .jumbotron h2, .jumbotron h3, .jumbotron h4, .jumbotron h5, .jumbotron h6 {
+        font-size: 18px;
+    }
+    .e-Icon, .g-Icon, .i-Icon, .r-Icon, .m-Icon, .u-Icon {
+        height: 50px;
+        width: 50px;
+        background-size: cover;
+    }
+    .btn-Group{
+        width: 100%;
+        text-align: center;
+    }
+}
+@media (min-width: 768px) {
+    .e-Icon, .g-Icon, .i-Icon, .r-Icon, .m-Icon, .u-Icon{
+        height: 64px;
+        width: 64px;
     }
 }
 .innerBox{
@@ -274,8 +285,6 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
     box-shadow: 0px 0px 45px 7px rgba(0,0,0,0.75);
 }
 .e-Icon, .g-Icon, .i-Icon, .r-Icon, .m-Icon, .u-Icon{
-    height: 64px;
-    width: 64px;
     background-color: rgba(255, 0, 0, 0);
     border: 0px;
     margin-right: 10px;
@@ -302,8 +311,6 @@ a:hover {color:rgb(255, 255, 255);}  /* mouse over link */
 }
 .u-Icon{
     background-image: url("images/user.png");
-    height: 60px;
-    width: 60px;
 }
 .e-Icon:hover, .g-Icon:hover, .i-Icon:hover, .r-Icon:hover{
     opacity: 0.70;
