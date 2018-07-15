@@ -25,10 +25,6 @@ ROOLS is short for roommate-bills. This is a bill management app for roommates b
 
 ![UI Concept Design](client/public/images/UI_Concept_Design.jpg)
 
-# DB Schema Design
-
-![DB Schema Design](client/public/images/DB_Schema.jpg)
-
 # IceBox
 
 Ideas for future development.
